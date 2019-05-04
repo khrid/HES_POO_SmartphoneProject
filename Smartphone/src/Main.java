@@ -7,5 +7,6 @@ public class Main {
         } catch(Exception ignored){}
         Smartphone s = new Smartphone();
         s.setVisible(true);
+        System.out.println("Test");
     }
 }
