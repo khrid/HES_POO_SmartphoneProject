@@ -24,7 +24,7 @@ public class Smartphone extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(drawer.isVisible()) {
+            if(!drawer.isVisible()) {
                 remove(launcher);
                 add(drawer);
                 btnDrawer.setText("Hide apps");
