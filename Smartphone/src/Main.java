@@ -10,5 +10,6 @@ public class Main {
         System.out.println("Test");
         System.out.println("Test 2");
         System.out.println("Test 3 -");
+        System.out.println("Test 4 -");
     }
 }
