@@ -24,9 +24,18 @@ public class Smartphone extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("click");
-            remove(launcher);
-            add(drawer);
+            if(drawer.isVisible()) {
+                remove(launcher);
+                add(drawer);
+                btnDrawer.setText("Hide apps");
+            } else {
+                remove(drawer);
+                add(launcher);
+                btnDrawer.setText("Show apps");
+            }
+            drawer.setVisible(!drawer.isVisible());
+            revalidate();
+            repaint();
         }
     }
 }
