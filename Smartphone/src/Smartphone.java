@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 
 public class Smartphone extends JFrame {
     private JButton btnDrawer = new JButton("Show apps");
-    private JPanel pnlLauncher = new JPanel();
     private Launcher launcher = new Launcher();
     private Drawer drawer = new Drawer();
     public Smartphone() {
@@ -15,6 +14,7 @@ public class Smartphone extends JFrame {
 
         DrawerListener dl = new DrawerListener();
         btnDrawer.addActionListener(dl);
+
 
         add(launcher, BorderLayout.CENTER);
         add(btnDrawer, BorderLayout.SOUTH);
