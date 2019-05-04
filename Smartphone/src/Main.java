@@ -8,5 +8,6 @@ public class Main {
         Smartphone s = new Smartphone();
         s.setVisible(true);
         System.out.println("Test");
+        System.out.println("Test 2");
     }
 }
