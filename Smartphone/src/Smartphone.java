@@ -1,0 +1,32 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Smartphone extends JFrame {
+    private JButton btnDrawer = new JButton("Show apps");
+    private JPanel pnlLauncher = new JPanel();
+    private Launcher launcher = new Launcher();
+    private Drawer drawer = new Drawer();
+    public Smartphone() {
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // pour stopper le process lors du clic sur la croix rouge
+        setTitle("MySmartphone"); // titre de la fenêtre
+        setSize(new Dimension(400,600));
+
+        DrawerListener dl = new DrawerListener();
+        btnDrawer.addActionListener(dl);
+
+        add(launcher, BorderLayout.CENTER);
+        add(btnDrawer, BorderLayout.SOUTH);
+    }
+
+    public class DrawerListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("click");
+            remove(launcher);
+            add(drawer);
+        }
+    }
+}
