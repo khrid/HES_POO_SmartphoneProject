@@ -7,6 +7,7 @@ public class Drawer extends JPanel {
 
         JLabel lblTest = new JLabel("DRAWER");
         add(lblTest);
+        setBackground(Color.YELLOW);
     }
 
     @Override
