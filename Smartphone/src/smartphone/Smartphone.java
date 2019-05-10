@@ -6,10 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Smartphone extends JFrame {
-    //private JButton btnDrawer = new JButton("Show apps"); --> to delete
     private JButton btnHome = new JButton("Home");
     private Launcher launcher = new Launcher();
-    //private Drawer drawer = new Drawer(); --> to delete
     public Smartphone() {
         setDefaultCloseOperation(EXIT_ON_CLOSE); // pour stopper le process lors du clic sur la croix rouge
         setTitle("MySmartphone"); // titre de la fenêtre
@@ -21,10 +19,6 @@ public class Smartphone extends JFrame {
         add(launcher, BorderLayout.CENTER);
         add(btnHome, BorderLayout.SOUTH);
 
-    }
-
-    public Drawer getDrawer() {
-        return drawer;
     }
 
     public class btnHomeListener implements ActionListener {
