@@ -6,40 +6,35 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Smartphone extends JFrame {
-    private JButton btnDrawer = new JButton("Show apps");
+    //private JButton btnDrawer = new JButton("Show apps"); --> to delete
+    private JButton btnHome = new JButton("Home");
     private Launcher launcher = new Launcher();
-    private Drawer drawer = new Drawer();
+    //private Drawer drawer = new Drawer(); --> to delete
     public Smartphone() {
         setDefaultCloseOperation(EXIT_ON_CLOSE); // pour stopper le process lors du clic sur la croix rouge
         setTitle("MySmartphone"); // titre de la fenêtre
         setSize(new Dimension(400,600));
 
-        DrawerListener dl = new DrawerListener();
-        btnDrawer.addActionListener(dl);
+        btnHomeListener dl = new btnHomeListener();
+        btnHome.addActionListener(dl);
 
-        //add(null, BorderLayout.NORTH);
         add(launcher, BorderLayout.CENTER);
-        add(btnDrawer, BorderLayout.SOUTH);
+        add(btnHome, BorderLayout.SOUTH);
+
     }
 
     public Drawer getDrawer() {
         return drawer;
     }
 
-    public class DrawerListener implements ActionListener {
+    public class btnHomeListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(!drawer.isVisible()) {
-                remove(launcher);
-                add(drawer);
-                btnDrawer.setText("Hide apps");
-            } else {
-                remove(drawer);
-                add(launcher);
-                btnDrawer.setText("Show apps");
-            }
-            drawer.setVisible(!drawer.isVisible());
+            remove(launcher);
+            launcher=null;
+            launcher = new Launcher();
+            add(launcher);
             revalidate();
             repaint();
         }
