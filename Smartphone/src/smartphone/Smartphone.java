@@ -17,9 +17,13 @@ public class Smartphone extends JFrame {
         DrawerListener dl = new DrawerListener();
         btnDrawer.addActionListener(dl);
 
-        add(null, BorderLayout.NORTH);
+        //add(null, BorderLayout.NORTH);
         add(launcher, BorderLayout.CENTER);
         add(btnDrawer, BorderLayout.SOUTH);
+    }
+
+    public Drawer getDrawer() {
+        return drawer;
     }
 
     public class DrawerListener implements ActionListener {
