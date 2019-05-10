@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Launcher extends JPanel {
+public class Launcher extends AppPanel {
 
     private JButton btnDrawer = new JButton("Show apps");
     private Drawer drawer = new Drawer();

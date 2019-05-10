@@ -23,6 +23,10 @@ public class Smartphone extends JFrame {
 
     }
 
+    public Drawer getDrawer() {
+        return drawer;
+    }
+
     public class btnHomeListener implements ActionListener {
 
         @Override
