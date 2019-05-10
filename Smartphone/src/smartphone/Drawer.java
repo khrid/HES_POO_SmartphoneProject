@@ -11,14 +11,21 @@ import java.util.ArrayList;
 public class Drawer extends AppPanel {
     private boolean isVisible = false;
     private JPanel pnlDrawer = new JPanel();
-    public Drawer() {
+    private Smartphone parentSmartphone;
+    public Drawer(Smartphone parentSmartphone) {
         setLayout(new BorderLayout());
+
+        this.parentSmartphone=parentSmartphone;
 
         ArrayList<App> apps = new ArrayList<App>();
         //apps.add(new App("Contacts"));
         //apps.add(new App("Galerie"));
         apps.add(new App("Test", new TestPanel()));
         apps.add(new App("Test2", new Test2Panel()));
+        apps.add(new App("Google", new AppPanel()));
+        apps.add(new App("Gmail", new AppPanel()));
+        apps.add(new App("Maps", new AppPanel()));
+        apps.add(new App("Message", new AppPanel()));
 
         for (App a : apps
              ) {
@@ -29,6 +36,8 @@ public class Drawer extends AppPanel {
                 System.out.println("Clic bouton");
                 this.removeAll();
                 Drawer.this.add(a.getPanel(), BorderLayout.CENTER);
+                System.out.println();
+                parentSmartphone.hideQuickLaunch();
                 revalidate();
                 repaint();
             });
