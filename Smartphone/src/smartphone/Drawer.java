@@ -1,3 +1,7 @@
+package smartphone;
+
+import apps.App;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,12 +13,6 @@ public class Drawer extends JPanel {
         ArrayList<App> apps = new ArrayList<App>();
         apps.add(new App("Contacts"));
         apps.add(new App("Galerie"));
-        apps.add(new App("Contacts"));
-        apps.add(new App("Galerie"));
-        apps.add(new App("Contacts"));
-        apps.add(new App("Galerie"));
-        apps.add(new App("Contacts"));
-        apps.add(new App("Galerie"));
 
         for (App a : apps
              ) {
@@ -23,7 +21,7 @@ public class Drawer extends JPanel {
             add(btn);
         }
 
-        System.out.println("Drawer created");
+        System.out.println("smartphone.Drawer created");
         //JLabel lblTest = new JLabel("DRAWER");
         //add(lblTest);
         setBackground(Color.YELLOW);

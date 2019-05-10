@@ -1,3 +1,5 @@
+package smartphone;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +17,7 @@ public class Smartphone extends JFrame {
         DrawerListener dl = new DrawerListener();
         btnDrawer.addActionListener(dl);
 
-
+        add(null, BorderLayout.NORTH);
         add(launcher, BorderLayout.CENTER);
         add(btnDrawer, BorderLayout.SOUTH);
     }
