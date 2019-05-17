@@ -10,7 +10,10 @@ public class Main {
         try { // Pour utiliser l'app    arence du système et non le look dégeu par défaut de Java
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch(Exception ignored){}
-        Smartphone s = new Smartphone();
-        s.setVisible(true);
+        /*SmartphoneOld s = new SmartphoneOld();
+        s.setVisible(true);*/
+        Smartphone sr = new Smartphone();
+        sr.setVisible(true);
+
     }
 }
