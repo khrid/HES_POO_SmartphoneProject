@@ -1,92 +1,70 @@
 package smartphone;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Smartphone extends JFrame {
-    private JButton btnHome = new JButton("Home");
-    private Launcher launcher = new Launcher();
-    private JButton btnDrawer = new JButton("Show apps");
-    private Drawer drawer = new Drawer(this);
 
-    private JPanel panelButtons = new JPanel();
-    private JPanel panelQuickLaunch = new JPanel();
-
+    private final CardLayout cards = new CardLayout();
+    private final JPanel pnlMulti = new JPanel(cards);
+    private static String activePanel = "launcher";
+    private JPanel pnlQuicklaunch = new JPanel(new GridLayout(1, 5));
+    private JButton btnHomeButton = new JButton("Home");
+    private JPanel pnlSouth = new JPanel(new BorderLayout());
+    private JButton btnApps = new JButton("Apps");
 
     public Smartphone() {
+
         setDefaultCloseOperation(EXIT_ON_CLOSE); // pour stopper le process lors du clic sur la croix rouge
         setTitle("MySmartphone"); // titre de la fenêtre
-        setSize(new Dimension(400,600));
+        setSize(new Dimension(400, 600));
+        setResizable(false);
 
-        btnHomeListener dl = new btnHomeListener();
-        btnHome.addActionListener(dl);
+        Launcher pnlLauncher = new Launcher(cards, pnlMulti);
+        pnlMulti.add(pnlLauncher, "launcher");
 
-        DrawerListener d2 = new DrawerListener();
-        btnDrawer.addActionListener(d2);
+        Drawer pnlDrawer = new Drawer(cards, pnlMulti);
+        pnlMulti.add(pnlDrawer, "drawer");
 
-        add(launcher, BorderLayout.CENTER);
+        JPanel pnlHomeButton = new JPanel();
+        pnlHomeButton.add(btnHomeButton);
+        btnHomeButton.addActionListener(e -> {
+            cards.show(pnlMulti, "launcher");
+            pnlDrawer.getDrawerCards().show(pnlDrawer.getPnlApps(), "main");
+            System.out.println("Home button clicked, resetting Drawer.");
+            pnlQuicklaunch.setVisible(true);
+        });
 
-        panelButtons.setLayout(new BorderLayout());
 
-        panelQuickLaunch.setLayout(new GridLayout(1,5));
+        add(pnlMulti, BorderLayout.CENTER);
 
-        panelQuickLaunch.add(new JButton("Tél"));
-        panelQuickLaunch.add(new JButton("News"));
-        panelQuickLaunch.add(new JButton("Contacts"));
-        panelQuickLaunch.add(new JButton("Maps"));
-        panelQuickLaunch.add(btnDrawer);
+        pnlQuicklaunch.add(new JButton("Tél"));
+        pnlQuicklaunch.add(new JButton("News"));
+        pnlQuicklaunch.add(new JButton("Contacts"));
+        pnlQuicklaunch.add(new JButton("Maps"));
+        pnlQuicklaunch.add(btnApps);
 
-        panelButtons.add(panelQuickLaunch, BorderLayout.NORTH);
-        panelButtons.add(btnHome, BorderLayout.SOUTH);
+        btnApps.addActionListener(e -> {
+            System.out.println(Smartphone.getActivePanel());
+            System.out.println("Clic show apps");
+            cards.show(pnlMulti, "drawer");
+            setActivePanel("drawer");
+            System.out.println(Smartphone.getActivePanel());
+            pnlQuicklaunch.setVisible(false);
+        });
 
-        add(panelButtons, BorderLayout.SOUTH);
+
+        pnlSouth.add(pnlQuicklaunch, BorderLayout.NORTH);
+        pnlSouth.add(pnlHomeButton, BorderLayout.SOUTH);
+        add(pnlSouth, BorderLayout.SOUTH);
 
     }
 
-    public void hideQuickLaunch(){
-        panelQuickLaunch.setVisible(false);
-        //panelButtons.remove(panelQuickLaunch);
+    public static String getActivePanel() {
+        return activePanel;
     }
 
-    public class btnHomeListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            remove(launcher);
-            remove(drawer);
-            launcher=null;
-            drawer=null;
-            launcher = new Launcher();
-            drawer = new Drawer(Smartphone.this);
-            add(launcher);
-
-            panelQuickLaunch.setVisible(true);
-
-            revalidate();
-            repaint();
-        }
+    public static void setActivePanel(String activePanel) {
+        Smartphone.activePanel = activePanel;
     }
-
-    public class DrawerListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if(!drawer.isVisible()) {
-                remove(launcher);
-                add(drawer);
-                btnDrawer.setText("Hide apps");
-            } else {
-                remove(drawer);
-                add(launcher);
-                btnDrawer.setText("Show apps");
-            }
-            drawer.setVisible(!drawer.isVisible());
-            revalidate();
-            repaint();
-        }
-    }
-
 }

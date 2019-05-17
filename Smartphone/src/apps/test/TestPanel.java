@@ -8,6 +8,5 @@ public class TestPanel extends AppPanel {
     public TestPanel(String appName) {
         super(appName);
         System.out.println("Creating TestPanel");
-        setBackground(Color.blue);
     }
 }
