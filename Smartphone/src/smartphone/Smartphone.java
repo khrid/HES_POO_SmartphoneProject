@@ -15,6 +15,14 @@ public class Smartphone extends JFrame {
     private JPanel panelButtons = new JPanel();
     private JPanel panelQuickLaunch = new JPanel();
 
+    private void goHome(){
+        drawer.initializeDrawer();
+        drawer.setVisible(false);
+        remove(drawer);
+        add(launcher);
+        btnDrawer.setText("Show apps");
+        showQuickLaunch();
+    }
 
     public Smartphone() {
         setDefaultCloseOperation(EXIT_ON_CLOSE); // pour stopper le process lors du clic sur la croix rouge
@@ -48,23 +56,18 @@ public class Smartphone extends JFrame {
 
     public void hideQuickLaunch(){
         panelQuickLaunch.setVisible(false);
-        //panelButtons.remove(panelQuickLaunch);
+    }
+
+    public void showQuickLaunch(){
+        panelQuickLaunch.setVisible(true);
     }
 
     public class btnHomeListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            remove(launcher);
-            remove(drawer);
-            launcher=null;
-            drawer=null;
-            launcher = new Launcher();
-            drawer = new Drawer(Smartphone.this);
-            add(launcher);
-
-            panelQuickLaunch.setVisible(true);
-
+            goHome();
+            System.out.println("Button Home clicked");
             revalidate();
             repaint();
         }
@@ -74,16 +77,18 @@ public class Smartphone extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            // A VOIR
+            System.out.println(drawer.getParent());
+            System.out.println(this);
+
             if(!drawer.isVisible()) {
                 remove(launcher);
                 add(drawer);
                 btnDrawer.setText("Hide apps");
+                drawer.setVisible(true);
             } else {
-                remove(drawer);
-                add(launcher);
-                btnDrawer.setText("Show apps");
+                goHome();
             }
-            drawer.setVisible(!drawer.isVisible());
             revalidate();
             repaint();
         }

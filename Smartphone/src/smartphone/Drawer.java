@@ -1,6 +1,8 @@
 package smartphone;
 
 import apps.App;
+import apps.contacts.ContactsPanel;
+import apps.gallery.GalleryPanel;
 import apps.test.TestPanel;
 import apps.test2.Test2Panel;
 
@@ -12,23 +14,37 @@ public class Drawer extends AppPanel {
     private boolean isVisible = false;
     private JPanel pnlDrawer = new JPanel();
     private Smartphone parentSmartphone;
+    private ArrayList<App> apps;
+
     public Drawer(Smartphone parentSmartphone) {
         setLayout(new BorderLayout());
 
         this.parentSmartphone=parentSmartphone;
-
-        ArrayList<App> apps = new ArrayList<App>();
-        //apps.add(new App("Contacts"));
-        //apps.add(new App("Galerie"));
+        apps = new ArrayList<App>();
+        apps.add(new App("Contacts", new ContactsPanel("Contacts")));
+        apps.add(new App("Gallery", new GalleryPanel("Gallery")));
         apps.add(new App("Test", new TestPanel("Test")));
         apps.add(new App("Test2", new Test2Panel("Test2")));
-        apps.add(new App("Google", new AppPanel("Google")));
-        apps.add(new App("Gmail", new AppPanel("Gmail")));
         apps.add(new App("Maps", new AppPanel("Maps")));
         apps.add(new App("Message", new AppPanel("Message")));
 
+        initializeDrawer();
+
+        pnlDrawer.setOpaque(true);
+        pnlDrawer.setLayout(new GridLayout(3,3));
+        System.out.println("smartphone.Drawer created");
+        add(pnlDrawer);
+        //JLabel lblTest = new JLabel("DRAWER");
+        //add(lblTest);
+        setOpaque(false);
+        setBackground(Color.YELLOW);
+    }
+
+    public void initializeDrawer(){
+        pnlDrawer.removeAll();
+        this.removeAll();
         for (App a : apps
-             ) {
+        ) {
             JButton btn = new JButton(a.getName());
             btn.setSize(new Dimension(20,20));
             btn.addActionListener(e -> {
@@ -43,15 +59,7 @@ public class Drawer extends AppPanel {
             });
             pnlDrawer.add(btn);
         }
-
-        pnlDrawer.setOpaque(true);
-        pnlDrawer.setLayout(new GridLayout(3,3));
-        System.out.println("smartphone.Drawer created");
         add(pnlDrawer);
-        //JLabel lblTest = new JLabel("DRAWER");
-        //add(lblTest);
-        setOpaque(false);
-        setBackground(Color.YELLOW);
     }
 
     @Override
