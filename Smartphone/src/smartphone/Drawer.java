@@ -2,7 +2,6 @@ package smartphone;
 
 import apps.App;
 import apps.test.TestPanel;
-import apps.test2.Test2Panel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,54 +9,46 @@ import java.util.ArrayList;
 
 public class Drawer extends AppPanel {
     private boolean isVisible = false;
-    private JPanel pnlDrawer = new JPanel();
-    private Smartphone parentSmartphone;
-    public Drawer(Smartphone parentSmartphone) {
+    private CardLayout drawerCards = new CardLayout();
+    private JPanel pnlApps = new JPanel(drawerCards);
+    private JPanel pnlDrawer = new JPanel(new GridLayout(3, 3));
+
+    public Drawer(CardLayout cards, JPanel pnlCards) {
+        super(cards, pnlCards);
         setLayout(new BorderLayout());
 
-        this.parentSmartphone=parentSmartphone;
 
-        ArrayList<App> apps = new ArrayList<App>();
-        //apps.add(new App("Contacts"));
-        //apps.add(new App("Galerie"));
-        apps.add(new App("Test", new TestPanel()));
-        apps.add(new App("Test2", new Test2Panel()));
-        apps.add(new App("Google", new AppPanel()));
-        apps.add(new App("Gmail", new AppPanel()));
-        apps.add(new App("Maps", new AppPanel()));
-        apps.add(new App("Message", new AppPanel()));
+        ArrayList<App> apps = new ArrayList<>();
+        apps.add(new App("Test", new TestPanel("Test")));
+        apps.add(new App("Test2", new TestPanel("Test2")));
+        apps.add(new App("Test3", new TestPanel("Test3")));
+        apps.add(new App("Test4", new TestPanel("Test4")));
+        apps.add(new App("Test5", new TestPanel("Test5")));
+        apps.add(new App("Test6", new TestPanel("Test6")));
 
-        for (App a : apps
-             ) {
+        for (App a : apps) {
+            pnlApps.add(a.getPanel(), a.getName());
             JButton btn = new JButton(a.getName());
-            //btn.setSize(new Dimension(100,50));
             btn.addActionListener(e -> {
-                System.out.println(this);
-                System.out.println("Clic bouton");
-                this.removeAll();
-                Drawer.this.add(a.getPanel(), BorderLayout.CENTER);
-                System.out.println();
-                parentSmartphone.hideQuickLaunch();
-                revalidate();
-                repaint();
+                drawerCards.show(pnlApps, a.getName());
+                System.out.println("Changing active app : "+a.getName()+" is active.");
             });
-            pnlDrawer.add(btn, BorderLayout.NORTH);
+
+            pnlDrawer.add(btn);
+
         }
 
-        System.out.println("smartphone.Drawer created");
-        add(pnlDrawer);
-        //JLabel lblTest = new JLabel("DRAWER");
-        //add(lblTest);
-        setBackground(Color.YELLOW);
+        pnlApps.add(pnlDrawer, "main");
+        add(pnlApps);
+        drawerCards.show(pnlApps, "main");
+        setOpaque(false);
     }
 
-    @Override
-    public boolean isVisible() {
-        return isVisible;
+    public CardLayout getDrawerCards() {
+        return drawerCards;
     }
 
-    @Override
-    public void setVisible(boolean visible) {
-        isVisible = visible;
+    public JPanel getPnlApps() {
+        return pnlApps;
     }
 }
