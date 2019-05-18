@@ -56,8 +56,8 @@ public class Smartphone extends JFrame {
 
         pnlSouth.add(pnlQuicklaunch, BorderLayout.NORTH);
         pnlSouth.add(pnlHomeButton, BorderLayout.SOUTH);
-        add(pnlSouth, BorderLayout.SOUTH);}
-
+        add(pnlSouth, BorderLayout.SOUTH);
+    }
 
     public static String getActivePanel() {
         return activePanel;
