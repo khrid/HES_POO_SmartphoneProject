@@ -1,7 +1,7 @@
 package smartphone;
 
 import apps.App;
-import apps.contacts.ContactsPanel;
+import apps.contacts.ContactsMain;
 import apps.gallery.GalleryPanel;
 import apps.test.TestPanel;
 
@@ -21,7 +21,7 @@ public class Drawer extends AppPanel {
 
 
         ArrayList<App> apps = new ArrayList<>();
-        apps.add(new App("Contacts", new ContactsPanel("Contacts")));
+        apps.add(new App("Contacts", new ContactsMain("Contacts")));
         apps.add(new App("Gallery", new GalleryPanel("Gallery")));
         apps.add(new App("Test3", new TestPanel("Test3")));
         apps.add(new App("Test4", new TestPanel("Test4")));
