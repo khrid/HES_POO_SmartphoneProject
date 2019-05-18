@@ -2,9 +2,11 @@ package smartphone;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.logging.Logger;
 
 public class Smartphone extends JFrame {
 
+    private static Logger logger = Logger.getLogger(Smartphone.class.getName());
     private final CardLayout cards = new CardLayout();
     private final JPanel pnlMulti = new JPanel(cards);
     private static String activePanel = "launcher";
@@ -31,8 +33,10 @@ public class Smartphone extends JFrame {
         btnHomeButton.addActionListener(e -> {
             cards.show(pnlMulti, "launcher");
             pnlDrawer.getDrawerCards().show(pnlDrawer.getPnlApps(), "main");
-            System.out.println("Home button clicked, resetting Drawer.");
+            logger.info("Home button clicked, resetting Drawer.");
             pnlQuicklaunch.setVisible(true);
+            pnlMulti.remove(pnlDrawer);
+            pnlMulti.add(new Drawer(cards, pnlMulti), "drawer");
         });
 
 
@@ -45,11 +49,9 @@ public class Smartphone extends JFrame {
         pnlQuicklaunch.add(btnApps);
 
         btnApps.addActionListener(e -> {
-            System.out.println(Smartphone.getActivePanel());
-            System.out.println("Clic show apps");
+            logger.info("Clic show apps");
             cards.show(pnlMulti, "drawer");
             setActivePanel("drawer");
-            System.out.println(Smartphone.getActivePanel());
             pnlQuicklaunch.setVisible(false);
         });
 
@@ -57,7 +59,7 @@ public class Smartphone extends JFrame {
         pnlSouth.add(pnlQuicklaunch, BorderLayout.NORTH);
         pnlSouth.add(pnlHomeButton, BorderLayout.SOUTH);
         add(pnlSouth, BorderLayout.SOUTH);
-
+    }
 
     public static String getActivePanel() {
         return activePanel;
@@ -65,5 +67,6 @@ public class Smartphone extends JFrame {
 
     public static void setActivePanel(String activePanel) {
         Smartphone.activePanel = activePanel;
+        logger.info("Active panel : "+Smartphone.getActivePanel());
     }
 }
