@@ -17,6 +17,5 @@ public class AppPanel extends JPanel {
         this.appName = appName;
         setBackground(new Color((int)(Math.random() * 0x1000000)));
         JLabel lblName = new JLabel(this.appName);
-        //add(lblName);
     }
 }
