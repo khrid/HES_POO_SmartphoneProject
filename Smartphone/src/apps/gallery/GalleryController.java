@@ -37,10 +37,6 @@ public class GalleryController {
                 e.printStackTrace();
             }
             File fi = new File(path);
-
-            System.out.println(fi);
-
-
             for (File f : Objects.requireNonNull(fi.listFiles())) {
                 System.out.println(f.getName());
                 BufferedImage img = null;
