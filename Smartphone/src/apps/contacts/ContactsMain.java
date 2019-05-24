@@ -8,11 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ContactsMain extends AppPanel {
-    private ContactsController myController = new ContactsController();
+    private ContactsController controller = new ContactsController();
 
-    private CardLayout cards;
+    private CardLayout contactsCards;
     private JPanel pnlContactsMulti;
-    //private static String activePanel = "ContactsMain";
 
     private JPanel pnlMain;
     private JPanel pnlDetail;
@@ -24,30 +23,19 @@ public class ContactsMain extends AppPanel {
     private JButton buttonEditContact;
     private JButton buttonDeleteContact;
     private JPanel panelButtons;
-    private String months[]= { "January", "February", "March",
-            "April", "May", "June", "July", "August",
-            "September", "October", "November", "December",
-            "January", "February", "March",
-            "April", "May", "June", "July", "August",
-            "September", "October", "November", "December",
-            "January", "February", "March",
-            "April", "May", "June", "July", "August",
-            "September", "October", "November", "December",
-            "January", "February", "March",
-            "April", "May", "June", "July", "August",
-            "September", "October", "November", "December"};
-    private DefaultListModel<String> aListContacts;
 
-    private void RefreshData(DefaultListModel<String> aListContacts){
-        listContacts.setModel(aListContacts);
-    }
+    private DefaultListModel<String> aListContacts;
 
     public ContactsMain(String appName) {
         super(appName);
+        setLayout(new BorderLayout());
 
         System.out.println("Creating ContactsMain");
 
-        listContacts=new JList(myController.GetXMLContacts());
+        contactsCards = new CardLayout();
+        pnlContactsMulti = new JPanel(contactsCards);
+
+        listContacts=new JList(controller.GetXMLContacts());
         listContacts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listContacts.setLayoutOrientation(JList.VERTICAL);
         scrollPaneContacts = new JScrollPane(listContacts);
@@ -68,37 +56,37 @@ public class ContactsMain extends AppPanel {
         buttonOpenContact.addActionListener(new OpenContact());
         buttonAddContact.addActionListener(new AddContact());
 
-        //pnlContactsMulti.setLayout(new BorderLayout());
-
         pnlMain = new JPanel(new BorderLayout());
         pnlMain.add(scrollPaneContacts);
         pnlMain.add(panelButtons,BorderLayout.SOUTH);
 
-        cards = new CardLayout();
-        pnlContactsMulti = new JPanel(cards);
         pnlContactsMulti.add(pnlMain, "ContactsMain");
-        pnlDetail = new ContactAdd(this);
+        pnlDetail = new ContactAdd(this,controller);
         pnlContactsMulti.add(pnlDetail,"ContactAdd");
 
-        add(pnlContactsMulti,BorderLayout.CENTER);
-        cards.show(pnlContactsMulti,"ContactsMain");
+        add(pnlContactsMulti);
+        contactsCards.show(pnlContactsMulti,"ContactsMain");
+    }
+
+    public void RefreshData(){
+        listContacts.setModel(controller.GetXMLContacts());
     }
 
     public void ShowContactsMain(){
-        cards.show(pnlContactsMulti,"ContactsMain");
+        contactsCards.show(pnlContactsMulti,"ContactsMain");
     }
 
 
     // LISTENERS
     class OpenContact implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            //cards.show(pnlContactsMulti,"ContactAdd");
+            //contactsCards.show(pnlContactsMulti,"ContactAdd");
         }
     }
 
     class AddContact implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            cards.show(pnlContactsMulti,"ContactAdd");
+            contactsCards.show(pnlContactsMulti,"ContactAdd");
         }
     }
 }
