@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><contacts>
+    <contact>
+        <nom>MEYER</nom>
+        <prenom>Sylvain</prenom>
+        <fixe>027 327 10 10</fixe>
+        <mobile>079 327 10 10</mobile>
+        <email>sylvain.meyer@hes-so.ch</email>
+    </contact>
+    <contact>
+        <nom>CRITTIN</nom>
+        <prenom>David</prenom>
+        <fixe>027 327 10 10</fixe>
+        <mobile>079 327 10 10</mobile>
+        <email>david.crittin@hes-so.ch</email>
+    </contact>
+    <contact>
+        <nom>WENGER</nom>
+        <prenom>Samuel</prenom>
+        <fixe>027 327 10 10</fixe>
+        <mobile>079 327 10 10</mobile>
+        <email>samuel.wenger@hes-so.ch</email>
+    </contact>
+    <contact>
+        <nom>GALLAY</nom>
+        <prenom>Robin</prenom>
+        <fixe>027 327 10 10</fixe>
+        <mobile>079 327 10 10</mobile>
+        <email>robin.gallay@hes-so.ch</email>
+    </contact>
+<contact><nom>LE CALVE</nom><prenom>Anne</prenom><fixe>027 327 50 50</fixe><mobile>079 327 50 50</mobile><email/></contact></contacts>
