@@ -1,13 +1,13 @@
 package apps.gallery;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -30,7 +30,17 @@ public class GalleryController {
     private void buildGalleryItems() {
         if (this.mode == MODE_LOCAL) {
             ClassLoader classLoader = getClass().getClassLoader();
-            File fi = new File(classLoader.getResource("images/gallery/").getFile());
+            String path = null;
+            try {
+                path = URLDecoder.decode(classLoader.getResource("images/gallery/").getFile(), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            File fi = new File(path);
+
+            System.out.println(fi);
+
+
             for (File f : Objects.requireNonNull(fi.listFiles())) {
                 System.out.println(f.getName());
                 BufferedImage img = null;
@@ -52,7 +62,7 @@ public class GalleryController {
 
             for (int i = 0; i < SOURCE_WEB_QTY; i++) {
                 try {
-                    url = new URL("https://picsum.photos/"+DEFAULT_WEB_WIDTH+"/"+DEFAULT_WEB_HEIGHT+"");
+                    url = new URL("https://picsum.photos/" + DEFAULT_WEB_WIDTH + "/" + DEFAULT_WEB_HEIGHT + "");
                     image = ImageIO.read(url);
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -17,6 +17,7 @@ public class GalleryShow extends JPanel {
         btnBack.addActionListener(e -> {
             cl.show(pnl, "gallery");
         });
+
     }
 
     public void setImage(Image image) {
