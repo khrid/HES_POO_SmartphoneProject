@@ -6,8 +6,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -30,7 +32,14 @@ public class GalleryController {
     private void buildGalleryItems() {
         if (this.mode == MODE_LOCAL) {
             ClassLoader classLoader = getClass().getClassLoader();
-            File fi = new File(classLoader.getResource("images/gallery/").getFile());
+            String path = null;
+            try {
+                path = URLDecoder.decode(classLoader.getResource("images/gallery/").getFile(), "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            File fi = new File(path);
+
             for (File f : Objects.requireNonNull(fi.listFiles())) {
                 System.out.println(f.getName());
                 BufferedImage img = null;
