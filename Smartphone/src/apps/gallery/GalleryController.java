@@ -1,13 +1,11 @@
 package apps.gallery;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -39,7 +37,6 @@ public class GalleryController {
                 e.printStackTrace();
             }
             File fi = new File(path);
-
             for (File f : Objects.requireNonNull(fi.listFiles())) {
                 System.out.println(f.getName());
                 BufferedImage img = null;
@@ -61,7 +58,7 @@ public class GalleryController {
 
             for (int i = 0; i < SOURCE_WEB_QTY; i++) {
                 try {
-                    url = new URL("https://picsum.photos/"+DEFAULT_WEB_WIDTH+"/"+DEFAULT_WEB_HEIGHT+"");
+                    url = new URL("https://picsum.photos/" + DEFAULT_WEB_WIDTH + "/" + DEFAULT_WEB_HEIGHT + "");
                     image = ImageIO.read(url);
                 } catch (IOException e) {
                     e.printStackTrace();
