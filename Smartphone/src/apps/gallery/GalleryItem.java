@@ -1,10 +1,11 @@
 package apps.gallery;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Random;
 
-public class GalleryItem {
-    private Image image;
+public class GalleryItem implements Serializable {
+    transient private Image image;
     private int id;
 
     public GalleryItem(Image image) {

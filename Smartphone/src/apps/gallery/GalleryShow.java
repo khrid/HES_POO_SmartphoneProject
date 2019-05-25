@@ -1,74 +1,77 @@
 package apps.gallery;
 
+import smartphone.Smartphone;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class GalleryShow extends JPanel {
     private Image image;
     private GalleryItem galleryItem;
-    private int gallerySize = 0;
+    private GalleryItemPath gip;
+    private int gallerySize;
     JLabel lbl = new JLabel();
-    public GalleryShow(CardLayout cl, JPanel pnl, GalleryItem galleryItem) {
-        setGalleryItem(galleryItem);
+    public GalleryShow(CardLayout cl, JPanel pnl, GalleryItemPath galleryItem, int gallerySize, Smartphone sm) {
+
+        // Création de l'interface graphique
         setLayout(new BorderLayout());
         lbl.setHorizontalAlignment(JLabel.CENTER);
         JPanel pnlActions = new JPanel();
         JButton btnPrevious = new JButton("<");
         JButton btnBack = new JButton("Back");
+        JButton btnSetAs = new JButton("Update home");
         JButton btnNext = new JButton(">");
-        pnlActions.setLayout(new GridLayout(0, 5));
+        pnlActions.setLayout(new GridLayout(0, 4));
         pnlActions.add(btnPrevious);
-        pnlActions.add(new JPanel());
         pnlActions.add(btnBack);
-        pnlActions.add(new JPanel());
+        pnlActions.add(btnSetAs);
         pnlActions.add(btnNext);
         add(lbl);
         add(pnlActions, BorderLayout.SOUTH);
+
+        // Pour mettre l'image dans le label
+        setGalleryItem(galleryItem);
+
+        // Grisage des boutons pour les premières et dernières images
+        if(this.gip.getId() == 0) {
+            btnPrevious.setEnabled(false);
+        } else if (this.gip.getId() == gallerySize-1) {
+            btnNext.setEnabled(false);
+        }
+
+        /*
+         * Listeners
+         */
+
+        // Clic sur bouton " > " (next)
+        btnNext.addActionListener(e -> {
+            cl.show(pnl, "img"+ (this.gip.getId() + 1));
+        });
+
+        // Clic sur le bouton " < " (previous)
+        btnPrevious.addActionListener(e -> {
+            cl.show(pnl, "img"+ (this.gip.getId() - 1));
+        });
+
+
+        // Clic sur le bouton "Back" pour revenir à la galerie
         btnBack.addActionListener(e -> {
             cl.show(pnl, "gallery");
         });
 
-        if(this.galleryItem.getId() == 0) {
-            btnPrevious.setEnabled(false);
-        } else if (this.galleryItem.getId() == this.gallerySize-1) {
-            btnNext.setEnabled(false);
-        }
-        System.out.println(this.gallerySize);
-
-        // TODO implémenter grisage bouton
-        btnNext.addActionListener(e -> {
-            //revalidate();
-            //repaint();
-            cl.show(pnl, "img"+ (this.galleryItem.getId() + 1));
-            System.out.println("img"+ (this.galleryItem.getId() + 1));
-            //cl.next(pnl);
-        });
-
-        btnPrevious.addActionListener(e -> {
-            cl.show(pnl, "img"+ (this.galleryItem.getId() - 1));
-            System.out.println("img"+ (this.galleryItem.getId() - 1));
-
+        // Clic sur le bouton "Update home" pour changer le fond d'écran
+        btnSetAs.addActionListener(e -> {
+            System.out.println("clic setAs");
+            sm.updateBackground(gip);
         });
 
     }
 
-    public void setImage(Image image) {
-        this.image = image;
-        lbl.setIcon(new ImageIcon(this.galleryItem.getImage().getScaledInstance(380,500, Image.SCALE_SMOOTH)));
+    public void setGalleryItem(GalleryItemPath gi) {
+        //this.galleryItem = gi;
+        this.gip = gi;
+        lbl.setIcon(new ImageIcon(this.gip.getImage().getScaledInstance(380,500, Image.SCALE_SMOOTH)));
         lbl.setSize(new Dimension(GalleryController.DEFAULT_GALLERY_WIDTH,GalleryController.DEFAULT_GALLERY_HEIGHT));
-        //lbl.setIcon(new ImageIcon(gi.getResizedIimage(GalleryController.DEFAULT_GALLERY_WIDTH,GalleryController.DEFAULT_GALLERY_HEIGHT)));
-        repaint();
-    }
-
-    public void setGallerySize(int size) {
-        this.gallerySize = size;
-    }
-
-    public void setGalleryItem(GalleryItem gi) {
-        this.galleryItem = gi;
-        lbl.setIcon(new ImageIcon(this.galleryItem.getImage().getScaledInstance(380,500, Image.SCALE_SMOOTH)));
-        lbl.setSize(new Dimension(GalleryController.DEFAULT_GALLERY_WIDTH,GalleryController.DEFAULT_GALLERY_HEIGHT));
-        //lbl.setIcon(new ImageIcon(gi.getResizedIimage(GalleryController.DEFAULT_GALLERY_WIDTH,GalleryController.DEFAULT_GALLERY_HEIGHT)));
         repaint();
     }
 }

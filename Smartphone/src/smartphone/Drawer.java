@@ -15,14 +15,14 @@ public class Drawer extends AppPanel {
     private JPanel pnlApps = new JPanel(drawerCards);
     private JPanel pnlDrawer = new JPanel(new GridLayout(3, 3));
 
-    public Drawer(CardLayout cards, JPanel pnlCards) {
+    public Drawer(CardLayout cards, JPanel pnlCards, Smartphone sm) {
         super(cards, pnlCards);
         setLayout(new BorderLayout());
 
 
         ArrayList<App> apps = new ArrayList<>();
         apps.add(new App("Contacts", new ContactsMain("Contacts")));
-        apps.add(new App("Gallery", new GalleryPanel("Gallery")));
+        apps.add(new App("Gallery", new GalleryPanel("Gallery", sm)));
         apps.add(new App("Test3", new TestPanel("Test3")));
         apps.add(new App("Test4", new TestPanel("Test4")));
         apps.add(new App("Test5", new TestPanel("Test5")));
