@@ -14,7 +14,8 @@ public class ContactsMain extends AppPanel {
     private JPanel pnlContactsMulti;
 
     private JPanel pnlMain;
-    private JPanel pnlDetail;
+    private ContactDetails pnlDetails;
+    private ContactAdd pnlAdd;
 
     private JList listContacts;
     private JScrollPane scrollPaneContacts;
@@ -23,8 +24,6 @@ public class ContactsMain extends AppPanel {
     private JButton buttonEditContact;
     private JButton buttonDeleteContact;
     private JPanel panelButtons;
-
-    private DefaultListModel<String> aListContacts;
 
     public ContactsMain(String appName) {
         super(appName);
@@ -35,7 +34,9 @@ public class ContactsMain extends AppPanel {
         contactsCards = new CardLayout();
         pnlContactsMulti = new JPanel(contactsCards);
 
-        listContacts=new JList(controller.GetXMLContacts());
+        listContacts=new JList();
+        RefreshData();
+
         listContacts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listContacts.setLayoutOrientation(JList.VERTICAL);
         scrollPaneContacts = new JScrollPane(listContacts);
@@ -61,15 +62,17 @@ public class ContactsMain extends AppPanel {
         pnlMain.add(panelButtons,BorderLayout.SOUTH);
 
         pnlContactsMulti.add(pnlMain, "ContactsMain");
-        pnlDetail = new ContactAdd(this,controller);
-        pnlContactsMulti.add(pnlDetail,"ContactAdd");
+        pnlDetails = new ContactDetails(this,controller);
+        pnlAdd = new ContactAdd(this,controller);
+        pnlContactsMulti.add(pnlDetails,"ContactDetails");
+        pnlContactsMulti.add(pnlAdd,"ContactAdd");
 
         add(pnlContactsMulti);
         contactsCards.show(pnlContactsMulti,"ContactsMain");
     }
 
     public void RefreshData(){
-        listContacts.setModel(controller.GetXMLContacts());
+        listContacts.setModel(controller.GetContacts());
     }
 
     public void ShowContactsMain(){
@@ -80,7 +83,8 @@ public class ContactsMain extends AppPanel {
     // LISTENERS
     class OpenContact implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            //contactsCards.show(pnlContactsMulti,"ContactAdd");
+            pnlDetails.SetContact(controller.GetSelectedContact(listContacts.getSelectedIndex()));
+            contactsCards.show(pnlContactsMulti,"ContactDetails");
         }
     }
 
