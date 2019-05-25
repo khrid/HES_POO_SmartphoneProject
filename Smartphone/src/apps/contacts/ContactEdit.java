@@ -1,6 +1,7 @@
 package apps.contacts;
 
 import javax.swing.*;
+import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +22,13 @@ public class ContactEdit extends ContactDetail {
     // LISTENERS
     class SaveEditedContact implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            contact.getXMLContact();
+            System.out.println("Edited contact : " + textNom.getText() + " " + textPrenom.getText() + " " + textFixe.getText() + " " + textMobile.getText());
+            try {
+                controller.EditXMLContact(contact, textNom.getText(),textPrenom.getText(),textFixe.getText(),textMobile.getText());
+            } catch (TransformerException e) {
+                e.printStackTrace();
+            }
+            parent.RefreshData();
             parent.ShowContactsMain();
         }
     }

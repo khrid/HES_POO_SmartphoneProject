@@ -11,11 +11,11 @@ public class Contact {
     private String mobile;
     private String email;
 
-    public Contact(Element XMLContact, int id, String prenom, String nom, String fixe, String mobile, String email) {
+    public Contact(Element XMLContact, int id, String nom, String prenom, String fixe, String mobile, String email) {
         this.XMLContact=XMLContact;
         this.id=id;
-        this.prenom=prenom;
         this.nom=nom;
+        this.prenom=prenom;
         this.fixe=fixe;
         this.mobile=mobile;
         this.email=email;

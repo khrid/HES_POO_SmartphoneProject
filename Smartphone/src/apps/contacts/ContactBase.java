@@ -24,6 +24,13 @@ public class ContactBase extends JPanel {
     protected JTextField textFixe;
     protected JTextField textMobile;
 
+    protected void ResetFields(){
+        textNom.setText("");
+        textPrenom.setText("");
+        textFixe.setText("");
+        textMobile.setText("");
+    }
+
     public ContactBase(ContactsMain parent, ContactsController controller) {
         this.parent=parent;
         this.controller=controller;

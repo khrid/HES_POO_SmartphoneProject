@@ -148,30 +148,21 @@ public class ContactsController {
         WriteXMLFile();
     }
 
-    public void EditXMLContact(Contact contact) throws TransformerException {
+    public void EditXMLContact(Contact contact, String nomValue, String prenomValue, String fixeValue, String mobileValue) throws TransformerException {
         Element XMLContact = contact.getXMLContact();
-        // CONTINUE HERE
-        /*
-        Element XMLNom = document.createElement(NOM);
-        Element XMLPrenom = document.createElement(PRENOM);
-        Element XMLFixe = document.createElement(FIXE);
-        Element XMLMobile = document.createElement(MOBILE);
-        Element XMLEmail = document.createElement(EMAIL);
 
-        XMLContact.appendChild(XMLNom);
-        XMLContact.appendChild(XMLPrenom);
-        XMLContact.appendChild(XMLFixe);
-        XMLContact.appendChild(XMLMobile);
-        XMLContact.appendChild(XMLEmail);
+        Element XMLNom = (Element) XMLContact.getElementsByTagName(NOM).item(0);
+        Element XMLPrenom = (Element) XMLContact.getElementsByTagName(PRENOM).item(0);
+        Element XMLFixe = (Element) XMLContact.getElementsByTagName(FIXE).item(0);
+        Element XMLMobile = (Element) XMLContact.getElementsByTagName(MOBILE).item(0);
+        Element XMLEmail = (Element) XMLContact.getElementsByTagName(EMAIL).item(0);
 
-        XMLContact.setAttribute("id", "999");
+        XMLNom.setTextContent(nomValue);
+        XMLPrenom.setTextContent(prenomValue);
+        XMLFixe.setTextContent(fixeValue);
+        XMLMobile.setTextContent(mobileValue);
+        XMLEmail.setTextContent("");
 
-        XMLNom.appendChild(document.createTextNode(nomValue));
-        XMLPrenom.appendChild(document.createTextNode(prenomValue));
-        XMLFixe.appendChild(document.createTextNode(fixeValue));
-        XMLMobile.appendChild(document.createTextNode(mobileValue));
-        XMLEmail.appendChild(document.createTextNode(""));
-*/
         WriteXMLFile();
     }
 

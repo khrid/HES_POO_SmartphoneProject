@@ -32,11 +32,12 @@ public class ContactAdd extends ContactBase {
             System.out.println("New contact : " + textNom.getText() + " " + textPrenom.getText() + " " + textFixe.getText() + " " + textMobile.getText());
             try {
                 controller.AddXMLContact(textNom.getText(),textPrenom.getText(),textFixe.getText(),textMobile.getText());
+                parent.RefreshData();
+                parent.ShowContactsMain();
+                ResetFields();
             } catch (TransformerException e) {
                 e.printStackTrace();
             }
-            parent.RefreshData();
-            parent.ShowContactsMain();
         }
     }
 }

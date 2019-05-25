@@ -7,6 +7,8 @@ import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ContactsMain extends AppPanel {
     private ContactsController controller = new ContactsController();
@@ -27,12 +29,13 @@ public class ContactsMain extends AppPanel {
     private JButton buttonDeleteContact;
     private JPanel panelButtons;
 
-    private boolean IsAContactSelected(){
-        return !(listContacts.getSelectedIndex()==-1);
-    }
-
     private Contact GetSelectedContact(){
         return controller.GetContactAt(listContacts.getSelectedIndex());
+    }
+
+    private void OpenSelectedContact(){
+        pnlDetail.SetContact(GetSelectedContact());
+        contactsCards.show(pnlContactsMulti,"ContactDetails");
     }
 
     public ContactsMain(String appName) {
@@ -45,6 +48,10 @@ public class ContactsMain extends AppPanel {
         pnlContactsMulti = new JPanel(contactsCards);
 
         listContacts=new JList();
+
+
+        listContacts.addMouseListener(new ListDoubleClick());
+
         RefreshData();
 
         listContacts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -88,6 +95,7 @@ public class ContactsMain extends AppPanel {
 
     public void RefreshData(){
         listContacts.setModel(controller.GetContacts());
+        listContacts.setCellRenderer(new ContactListCellRenderer());
     }
 
     public void ShowContactsMain(){
@@ -95,17 +103,41 @@ public class ContactsMain extends AppPanel {
     }
 
 
+    // Drawing Table's Cells class
+    class ContactListCellRenderer extends DefaultListCellRenderer {
+        public Component getListCellRendererComponent(JList<?> list,
+                                                      Object value,
+                                                      int index,
+                                                      boolean isSelected,
+                                                      boolean cellHasFocus) {
+            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            if (value instanceof Contact) {
+                Contact contact = (Contact)value;
+                setText(contact.getNom() + " " + contact.getPrenom());
+                setToolTipText(contact.getFixe());
+            }
+            return this;
+        }
+    }
+
     // LISTENERS
     class OpenContact implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            pnlDetail.SetContact(GetSelectedContact());
-            contactsCards.show(pnlContactsMulti,"ContactDetails");
+            OpenSelectedContact();
+        }
+    }
+
+    class ListDoubleClick extends MouseAdapter {
+        public void mouseClicked(MouseEvent evt) {
+            if (evt.getClickCount() == 2) {
+                OpenSelectedContact();
+            }
         }
     }
 
     class DeleteContact implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            if (IsAContactSelected()){
+            if (!listContacts.isSelectionEmpty()){
                 Contact contactToDelete = GetSelectedContact();
                 System.out.println(contactToDelete.getNom() + " " + contactToDelete.getPrenom());
 
@@ -118,8 +150,6 @@ public class ContactsMain extends AppPanel {
                     } catch (TransformerException e) {
                         e.printStackTrace();
                     }
-                } else {
-                    System.out.println("No Option");
                 }
             }
             else {
