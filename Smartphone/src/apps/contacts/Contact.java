@@ -1,6 +1,9 @@
 package apps.contacts;
 
+import org.w3c.dom.Element;
+
 public class Contact {
+    private Element XMLContact;
     private int id;
     private String prenom;
     private String nom;
@@ -8,13 +11,18 @@ public class Contact {
     private String mobile;
     private String email;
 
-    public Contact(int id, String prenom, String nom, String fixe, String mobile, String email) {
+    public Contact(Element XMLContact, int id, String prenom, String nom, String fixe, String mobile, String email) {
+        this.XMLContact=XMLContact;
         this.id=id;
         this.prenom=prenom;
         this.nom=nom;
         this.fixe=fixe;
         this.mobile=mobile;
         this.email=email;
+    }
+
+    public Element getXMLContact() {
+        return XMLContact;
     }
 
     public int getId() {
