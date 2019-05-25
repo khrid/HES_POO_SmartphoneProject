@@ -15,8 +15,8 @@ public class GalleryController {
     public static final int MODE_LOCAL = 0;
     public static final int MODE_WEB = 1;
     public static final int SOURCE_WEB_QTY = 20;
-    public static final int DEFAULT_GALLERY_WIDTH = 100;
-    public static final int DEFAULT_GALLERY_HEIGHT = 100;
+    public static final int DEFAULT_GALLERY_WIDTH = 110;
+    public static final int DEFAULT_GALLERY_HEIGHT = 110;
     public static final int DEFAULT_WEB_WIDTH = 500;
     public static final int DEFAULT_WEB_HEIGHT = 500;
     private int mode = MODE_LOCAL;
@@ -49,6 +49,7 @@ public class GalleryController {
                 //        Image.SCALE_SMOOTH);
                 //ImageIcon image = new ImageIcon(dimg);
                 GalleryItem gi = new GalleryItem(img);
+                gi.setId(items.size());
                 items.add(gi);
             }
 
@@ -65,6 +66,7 @@ public class GalleryController {
                 }
                 //ImageIcon imageIcon = new ImageIcon(image);
                 GalleryItem gi = new GalleryItem(image);
+                gi.setId(items.size());
                 items.add(gi);
             }
         }
@@ -80,5 +82,9 @@ public class GalleryController {
             resized.add(new GalleryItem(gi.getResizedIimage(DEFAULT_GALLERY_WIDTH, DEFAULT_GALLERY_HEIGHT)));
         }
         return resized;
+    }
+
+    public int getGallerySize(){
+        return this.items.size();
     }
 }
