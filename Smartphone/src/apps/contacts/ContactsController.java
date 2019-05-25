@@ -22,6 +22,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class ContactsController {
+    private static final String ID = "id";
     private static final String NOM = "nom";
     private static final String PRENOM = "prenom";
     private static final String FIXE = "fixe";
@@ -33,13 +34,14 @@ public class ContactsController {
     private DocumentBuilder builder;
     private Document document;
     private Element racine;
+    private DefaultListModel<Contact> contactsList;
 
     private void InitializeXMLFile(){
+        System.out.println("XML file initializing");
 
         ClassLoader classLoader = getClass().getClassLoader();
         try {
             path = URLDecoder.decode(classLoader.getResource("apps/contacts/contacts.xml").getFile(), "UTF-8");
-            //System.out.println("Contacts database --> " + path);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -59,9 +61,35 @@ public class ContactsController {
         } catch (final IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("XML file initialized");
     }
 
+    private void GetXMLContacts() {
+        System.out.println("Contacts initializing");
 
+        contactsList.clear();
+
+        NodeList racineNoeuds = racine.getChildNodes();
+        int nbRacineNoeuds = racineNoeuds.getLength();
+        for (int i = 0; i<nbRacineNoeuds; i++) {
+            if (racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
+                Element personne = (Element) racineNoeuds.item(i);
+
+
+                Element nom = (Element) personne.getElementsByTagName(NOM).item(0);
+                Element prenom = (Element) personne.getElementsByTagName(PRENOM).item(0);
+                Element fixe = (Element) personne.getElementsByTagName(FIXE).item(0);
+                Element mobile = (Element) personne.getElementsByTagName(MOBILE).item(0);
+                Element email = (Element) personne.getElementsByTagName(EMAIL).item(0);
+
+                contactsList.addElement(new Contact(Integer.parseInt(personne.getAttribute(ID)),nom.getTextContent(),prenom.getTextContent(),
+                        fixe.getTextContent(),mobile.getTextContent(),email.getTextContent()));
+            }
+        }
+        System.out.println("Contacts initialized");
+        System.out.println("Number of contacts : " + contactsList.size());
+    }
 
     private void WriteXMLFile() throws TransformerException {
         // write the content into xml file
@@ -70,52 +98,25 @@ public class ContactsController {
         DOMSource source = new DOMSource(document);
         StreamResult result = new StreamResult(new File(path));
 
-        // Output to console for testing
-        // StreamResult result = new StreamResult(System.out);
-
         transformer.transform(source, result);
-        System.out.println("File saved!");
+        System.out.println("File saved !");
     }
 
 
 
-    public ContactsController(){
+    public ContactsController() {
+        contactsList = new DefaultListModel();
         InitializeXMLFile();
     }
 
+    public DefaultListModel<Contact> GetContacts() {
+        GetXMLContacts();
 
+        return contactsList;
+    }
 
-    public DefaultListModel<String> GetXMLContacts() {
-
-        DefaultListModel<String> aListContacts=new DefaultListModel();
-
-        NodeList racineNoeuds = racine.getChildNodes();
-        int nbRacineNoeuds = racineNoeuds.getLength();
-        for (int i = 0; i<nbRacineNoeuds; i++) {
-            if (racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                Element personne = (Element) racineNoeuds.item(i);
-
-                //Affichage d'une personne
-                //System.out.println("\n*************PERSONNE************");
-
-                Element nom = (Element) personne.getElementsByTagName(NOM).item(0);
-                Element prenom = (Element) personne.getElementsByTagName(PRENOM).item(0);
-                Element fixe = (Element) personne.getElementsByTagName(FIXE).item(0);
-                Element mobile = (Element) personne.getElementsByTagName(MOBILE).item(0);
-                Element email = (Element) personne.getElementsByTagName(EMAIL).item(0);
-
-                //Affichage du nom et du prénom
-                    /*
-                    System.out.println("nom : " + nom.getTextContent());
-                    System.out.println("prénom : " + prenom.getTextContent());
-                    System.out.println("fixe : " + fixe.getTextContent());
-                    System.out.println("mobile : " + mobile.getTextContent());
-                    System.out.println("email : " + email.getTextContent());
-                     */
-                aListContacts.addElement(nom.getTextContent() + " " + prenom.getTextContent());
-            }
-        }
-        return aListContacts;
+    public Contact GetSelectedContact(int index){
+        return contactsList.getElementAt(index);
     }
 
 
@@ -136,6 +137,8 @@ public class ContactsController {
         personne.appendChild(mobile);
         personne.appendChild(email);
 
+        personne.setAttribute("id", "999");
+
         nom.appendChild(document.createTextNode(nomValue));
         prenom.appendChild(document.createTextNode(prenomValue));
         fixe.appendChild(document.createTextNode(fixeValue));
@@ -143,6 +146,5 @@ public class ContactsController {
         email.appendChild(document.createTextNode(""));
 
         WriteXMLFile();
-
     }
 }
