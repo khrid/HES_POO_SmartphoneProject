@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
 
 public class ContactsMain extends AppPanel {
     private ContactsController controller = new ContactsController();
@@ -34,11 +35,14 @@ public class ContactsMain extends AppPanel {
     }
 
     private void OpenSelectedContact(){
-        pnlDetail.SetContact(GetSelectedContact());
-        contactsCards.show(pnlContactsMulti,"ContactDetails");
+        if (!listContacts.isSelectionEmpty()) {
+            pnlDetail.ResetFields();
+            pnlDetail.SetContact(GetSelectedContact());
+            contactsCards.show(pnlContactsMulti, "ContactDetails");
+        }
     }
 
-    public ContactsMain(String appName) {
+    public ContactsMain(String appName) throws ParseException {
         super(appName);
         setLayout(new BorderLayout());
 
@@ -163,14 +167,18 @@ public class ContactsMain extends AppPanel {
 
     class AddContact implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
+            pnlAdd.ResetFields();
             contactsCards.show(pnlContactsMulti,"ContactAdd");
         }
     }
 
     class EditContact implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            pnlEdit.SetContact(GetSelectedContact());
-            contactsCards.show(pnlContactsMulti,"ContactEdit");
+            if (!listContacts.isSelectionEmpty()) {
+                pnlEdit.ResetFields();
+                pnlEdit.SetContact(GetSelectedContact());
+                contactsCards.show(pnlContactsMulti, "ContactEdit");
+            }
         }
     }
 }

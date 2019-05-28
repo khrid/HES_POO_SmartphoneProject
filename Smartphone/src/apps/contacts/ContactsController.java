@@ -82,7 +82,7 @@ public class ContactsController {
                 Element XMLMobile = (Element) XMLContact.getElementsByTagName(MOBILE).item(0);
                 Element XMLEmail = (Element) XMLContact.getElementsByTagName(EMAIL).item(0);
 
-                contactsList.addElement(new Contact(XMLContact, Integer.parseInt(XMLContact.getAttribute(ID)),XMLNom.getTextContent(),XMLPrenom.getTextContent(),
+                contactsList.addElement(new Contact(XMLContact,XMLNom.getTextContent(),XMLPrenom.getTextContent(),
                         XMLFixe.getTextContent(),XMLMobile.getTextContent(),XMLEmail.getTextContent()));
             }
         }
@@ -121,7 +121,7 @@ public class ContactsController {
 
 
 
-    public void AddXMLContact(String nomValue, String prenomValue, String fixeValue, String mobileValue) throws TransformerException {
+    public void AddXMLContact(String nomValue, String prenomValue, String fixeValue, String mobileValue, String emailValue) throws TransformerException {
         Element XMLContact = document.createElement("contact");
         racine.appendChild(XMLContact);
 
@@ -137,18 +137,16 @@ public class ContactsController {
         XMLContact.appendChild(XMLMobile);
         XMLContact.appendChild(XMLEmail);
 
-        XMLContact.setAttribute("id", "999");
-
         XMLNom.appendChild(document.createTextNode(nomValue));
         XMLPrenom.appendChild(document.createTextNode(prenomValue));
         XMLFixe.appendChild(document.createTextNode(fixeValue));
         XMLMobile.appendChild(document.createTextNode(mobileValue));
-        XMLEmail.appendChild(document.createTextNode(""));
+        XMLEmail.appendChild(document.createTextNode(emailValue));
 
         WriteXMLFile();
     }
 
-    public void EditXMLContact(Contact contact, String nomValue, String prenomValue, String fixeValue, String mobileValue) throws TransformerException {
+    public void EditXMLContact(Contact contact, String nomValue, String prenomValue, String fixeValue, String mobileValue, String emailValue) throws TransformerException {
         Element XMLContact = contact.getXMLContact();
 
         Element XMLNom = (Element) XMLContact.getElementsByTagName(NOM).item(0);
@@ -161,7 +159,7 @@ public class ContactsController {
         XMLPrenom.setTextContent(prenomValue);
         XMLFixe.setTextContent(fixeValue);
         XMLMobile.setTextContent(mobileValue);
-        XMLEmail.setTextContent("");
+        XMLEmail.setTextContent(emailValue);
 
         WriteXMLFile();
     }

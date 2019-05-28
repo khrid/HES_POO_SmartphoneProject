@@ -5,11 +5,12 @@ import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 public class ContactEdit extends ContactDetail {
     private JButton buttonSave;
 
-    public ContactEdit(ContactsMain parent, ContactsController controller){
+    public ContactEdit(ContactsMain parent, ContactsController controller) throws ParseException {
         super(parent,controller);
 
         pnlButtons.setLayout(new GridLayout(1,2));
@@ -22,14 +23,19 @@ public class ContactEdit extends ContactDetail {
     // LISTENERS
     class SaveEditedContact implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            System.out.println("Edited contact : " + textNom.getText() + " " + textPrenom.getText() + " " + textFixe.getText() + " " + textMobile.getText());
-            try {
-                controller.EditXMLContact(contact, textNom.getText(),textPrenom.getText(),textFixe.getText(),textMobile.getText());
-            } catch (TransformerException e) {
-                e.printStackTrace();
+            if(isEditValid()) {
+                System.out.println("Edited contact : " + textNom.getText() + " " + textPrenom.getText() + " " + textFixe.getText() + " " + textMobile.getText());
+                try {
+                    controller.EditXMLContact(contact, textNom.getText(), textPrenom.getText(), textFixe.getText(), textMobile.getText(), textEmail.getText());
+                } catch (TransformerException e) {
+                    e.printStackTrace();
+                }
+                parent.RefreshData();
+                parent.ShowContactsMain();
+            } else {
+                System.out.println("Information incorrect !");
+                lblUserMessages.setText("Numéro incorrect !");
             }
-            parent.RefreshData();
-            parent.ShowContactsMain();
         }
     }
 }

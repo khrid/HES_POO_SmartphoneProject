@@ -2,6 +2,7 @@ package smartphone;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.ParseException;
 import java.util.logging.Logger;
 
 public class Smartphone extends JFrame {
@@ -15,7 +16,7 @@ public class Smartphone extends JFrame {
     private JPanel pnlSouth = new JPanel(new BorderLayout());
     private JButton btnApps = new JButton("Apps");
 
-    public Smartphone() {
+    public Smartphone() throws ParseException {
 
         setDefaultCloseOperation(EXIT_ON_CLOSE); // pour stopper le process lors du clic sur la croix rouge
         setTitle("MySmartphone"); // titre de la fenêtre
@@ -36,7 +37,11 @@ public class Smartphone extends JFrame {
             logger.info("Home button clicked, resetting Drawer.");
             pnlQuicklaunch.setVisible(true);
             pnlMulti.remove(pnlDrawer);
-            pnlMulti.add(new Drawer(cards, pnlMulti), "drawer");
+            try {
+                pnlMulti.add(new Drawer(cards, pnlMulti), "drawer");
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
         });
 
 

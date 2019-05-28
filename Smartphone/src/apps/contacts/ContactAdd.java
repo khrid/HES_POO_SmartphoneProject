@@ -5,12 +5,13 @@ import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 public class ContactAdd extends ContactBase {
 
     private JButton buttonSave;
 
-    public ContactAdd(ContactsMain parent, ContactsController controller){
+    public ContactAdd(ContactsMain parent, ContactsController controller) throws ParseException {
         super(parent,controller);
 
         pnlButtons.setLayout(new GridLayout(1,2));
@@ -31,7 +32,7 @@ public class ContactAdd extends ContactBase {
         public void actionPerformed(ActionEvent arg0) {
             System.out.println("New contact : " + textNom.getText() + " " + textPrenom.getText() + " " + textFixe.getText() + " " + textMobile.getText());
             try {
-                controller.AddXMLContact(textNom.getText(),textPrenom.getText(),textFixe.getText(),textMobile.getText());
+                controller.AddXMLContact(textNom.getText(),textPrenom.getText(),textFixe.getText(),textMobile.getText(),textEmail.getText());
                 parent.RefreshData();
                 parent.ShowContactsMain();
                 ResetFields();

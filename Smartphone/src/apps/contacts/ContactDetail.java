@@ -2,11 +2,12 @@ package apps.contacts;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 
 public class ContactDetail extends ContactBase {
     protected Contact contact;
 
-    public ContactDetail(ContactsMain parent, ContactsController controller){
+    public ContactDetail(ContactsMain parent, ContactsController controller) throws ParseException {
         super(parent,controller);
 
         buttonCancel.addActionListener(new BackContactsList());
