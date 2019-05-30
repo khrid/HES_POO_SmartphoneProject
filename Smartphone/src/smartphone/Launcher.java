@@ -18,7 +18,7 @@ public class Launcher extends AppPanel {
 
 
     public void updateBackground(GalleryItemPath gi) {
-        lblBackground.setIcon(new ImageIcon(gi.getImage().getScaledInstance(380,500, Image.SCALE_SMOOTH)));
+        lblBackground.setIcon(new ImageIcon(gi.getImage().getScaledInstance(400,500, Image.SCALE_SMOOTH)));
         lblBackground.setSize(new Dimension(GalleryController.DEFAULT_GALLERY_WIDTH,GalleryController.DEFAULT_GALLERY_HEIGHT));
         repaint();
     }

@@ -13,7 +13,7 @@ public class Drawer extends AppPanel {
     private boolean isVisible = false;
     private CardLayout drawerCards = new CardLayout();
     private JPanel pnlApps = new JPanel(drawerCards);
-    private JPanel pnlDrawer = new JPanel(new GridLayout(3, 3));
+    private JPanel pnlDrawer = new JPanel(new GridLayout(0, 3));
 
     public Drawer(CardLayout cards, JPanel pnlCards, Smartphone sm) {
         super(cards, pnlCards);
@@ -35,7 +35,7 @@ public class Drawer extends AppPanel {
                 drawerCards.show(pnlApps, a.getName());
                 System.out.println("Changing active app : "+a.getName()+" is active.");
             });
-
+            btn.setPreferredSize(new Dimension(75,75));
             pnlDrawer.add(btn);
 
         }
