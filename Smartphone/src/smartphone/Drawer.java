@@ -14,16 +14,17 @@ public class Drawer extends AppPanel {
     private boolean isVisible = false;
     private CardLayout drawerCards = new CardLayout();
     private JPanel pnlApps = new JPanel(drawerCards);
-    private JPanel pnlDrawer = new JPanel(new GridLayout(3, 3));
+    private JPanel pnlDrawer = new JPanel(new GridLayout(0, 3));
 
-    public Drawer(CardLayout cards, JPanel pnlCards) throws ParseException {
+
+    public Drawer(CardLayout cards, JPanel pnlCards, Smartphone sm) throws ParseException {
         super(cards, pnlCards);
         setLayout(new BorderLayout());
 
 
         ArrayList<App> apps = new ArrayList<>();
         apps.add(new App("Contacts", new ContactsMain("Contacts")));
-        apps.add(new App("Gallery", new GalleryPanel("Gallery")));
+        apps.add(new App("Gallery", new GalleryPanel("Gallery", sm)));
         apps.add(new App("Test3", new TestPanel("Test3")));
         apps.add(new App("Test4", new TestPanel("Test4")));
         apps.add(new App("Test5", new TestPanel("Test5")));
@@ -36,7 +37,7 @@ public class Drawer extends AppPanel {
                 drawerCards.show(pnlApps, a.getName());
                 System.out.println("Changing active app : "+a.getName()+" is active.");
             });
-
+            btn.setPreferredSize(new Dimension(75,75));
             pnlDrawer.add(btn);
 
         }
