@@ -14,12 +14,15 @@ public class GalleryPanel extends AppPanel {
     private static Logger logger = Logger.getLogger(GalleryPanel.class.getName());
     private CardLayout galleryCards = new CardLayout();
     private JPanel pnlMain = new JPanel(galleryCards);
+    private Color colBackground = Color.decode("#696a6d");
 
     public GalleryPanel(String appName, Smartphone sm) {
         super(appName);
         JPanel pnlGallery = new JPanel();
         GridLayout grlGallery = new GridLayout(0, 3, 10, 10);
         pnlGallery.setLayout(grlGallery);
+        pnlGallery.setBackground(colBackground);
+        pnlGallery.setOpaque(true);
 
 
         System.out.println("Creating GalleryPanel");
@@ -44,13 +47,15 @@ public class GalleryPanel extends AppPanel {
             });
         }
 
-        pnlGallery.setOpaque(false);
+        pnlGallery.setOpaque(true);
         JScrollPane scpGallery = new JScrollPane(pnlGallery);
         setLayout(new BorderLayout());
 
 
         pnlMain.add(scpGallery, "gallery");
         add(pnlMain);
+        scpGallery.setBackground(colBackground);
+        scpGallery.setOpaque(true);
         galleryCards.show(pnlMain, "gallery");
 
     }
