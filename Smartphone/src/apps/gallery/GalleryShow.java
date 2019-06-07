@@ -5,13 +5,10 @@ import smartphone.Smartphone;
 import javax.swing.*;
 import java.awt.*;
 
-public class GalleryShow extends JPanel {
-    private Image image;
-    private GalleryItem galleryItem;
+class GalleryShow extends JPanel {
     private GalleryItemPath gip;
-    private int gallerySize;
-    JLabel lbl = new JLabel();
-    public GalleryShow(CardLayout cl, JPanel pnl, GalleryItemPath galleryItem, int gallerySize, Smartphone sm) {
+    private JLabel lbl = new JLabel();
+    GalleryShow(CardLayout cl, JPanel pnl, GalleryItemPath galleryItem, int gallerySize, Smartphone sm) {
 
         // Création de l'interface graphique
         setLayout(new BorderLayout());
@@ -44,30 +41,21 @@ public class GalleryShow extends JPanel {
          */
 
         // Clic sur bouton " > " (next)
-        btnNext.addActionListener(e -> {
-            cl.show(pnl, "img"+ (this.gip.getId() + 1));
-        });
+        btnNext.addActionListener(e -> cl.show(pnl, "img"+ (this.gip.getId() + 1)));
 
         // Clic sur le bouton " < " (previous)
-        btnPrevious.addActionListener(e -> {
-            cl.show(pnl, "img"+ (this.gip.getId() - 1));
-        });
+        btnPrevious.addActionListener(e -> cl.show(pnl, "img"+ (this.gip.getId() - 1)));
 
 
         // Clic sur le bouton "Back" pour revenir à la galerie
-        btnBack.addActionListener(e -> {
-            cl.show(pnl, "gallery");
-        });
+        btnBack.addActionListener(e -> cl.show(pnl, "gallery"));
 
         // Clic sur le bouton "Update home" pour changer le fond d'écran
-        btnSetAs.addActionListener(e -> {
-            System.out.println("clic setAs");
-            sm.updateBackground(gip);
-        });
+        btnSetAs.addActionListener(e -> sm.updateBackground(gip));
 
     }
 
-    public void setGalleryItem(GalleryItemPath gi) {
+    private void setGalleryItem(GalleryItemPath gi) {
         //this.galleryItem = gi;
         this.gip = gi;
         lbl.setIcon(new ImageIcon(this.gip.getImage().getScaledInstance(380,500, Image.SCALE_SMOOTH)));
