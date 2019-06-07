@@ -74,17 +74,16 @@ public class ContactsController {
         int nbRacineNoeuds = racineNoeuds.getLength();
         for (int i = 0; i<nbRacineNoeuds; i++) {
             if (racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
-                Element personne = (Element) racineNoeuds.item(i);
+                Element XMLContact = (Element) racineNoeuds.item(i);
 
+                Element XMLNom = (Element) XMLContact.getElementsByTagName(NOM).item(0);
+                Element XMLPrenom = (Element) XMLContact.getElementsByTagName(PRENOM).item(0);
+                Element XMLFixe = (Element) XMLContact.getElementsByTagName(FIXE).item(0);
+                Element XMLMobile = (Element) XMLContact.getElementsByTagName(MOBILE).item(0);
+                Element XMLEmail = (Element) XMLContact.getElementsByTagName(EMAIL).item(0);
 
-                Element nom = (Element) personne.getElementsByTagName(NOM).item(0);
-                Element prenom = (Element) personne.getElementsByTagName(PRENOM).item(0);
-                Element fixe = (Element) personne.getElementsByTagName(FIXE).item(0);
-                Element mobile = (Element) personne.getElementsByTagName(MOBILE).item(0);
-                Element email = (Element) personne.getElementsByTagName(EMAIL).item(0);
-
-                contactsList.addElement(new Contact(Integer.parseInt(personne.getAttribute(ID)),nom.getTextContent(),prenom.getTextContent(),
-                        fixe.getTextContent(),mobile.getTextContent(),email.getTextContent()));
+                contactsList.addElement(new Contact(XMLContact,XMLNom.getTextContent(),XMLPrenom.getTextContent(),
+                        XMLFixe.getTextContent(),XMLMobile.getTextContent(),XMLEmail.getTextContent()));
             }
         }
         System.out.println("Contacts initialized");
@@ -115,36 +114,58 @@ public class ContactsController {
         return contactsList;
     }
 
-    public Contact GetSelectedContact(int index){
+    public Contact GetContactAt(int index){
+        System.out.println("Getting contact at index " + index);
         return contactsList.getElementAt(index);
     }
 
 
 
-    public void AddXMLContact(String nomValue, String prenomValue, String fixeValue, String mobileValue) throws TransformerException {
-        Element personne = document.createElement("contact");
-        racine.appendChild(personne);
+    public void AddXMLContact(String nomValue, String prenomValue, String fixeValue, String mobileValue, String emailValue) throws TransformerException {
+        Element XMLContact = document.createElement("contact");
+        racine.appendChild(XMLContact);
 
-        Element nom = document.createElement(NOM);
-        Element prenom = document.createElement(PRENOM);
-        Element fixe = document.createElement(FIXE);
-        Element mobile = document.createElement(MOBILE);
-        Element email = document.createElement(EMAIL);
+        Element XMLNom = document.createElement(NOM);
+        Element XMLPrenom = document.createElement(PRENOM);
+        Element XMLFixe = document.createElement(FIXE);
+        Element XMLMobile = document.createElement(MOBILE);
+        Element XMLEmail = document.createElement(EMAIL);
 
-        personne.appendChild(nom);
-        personne.appendChild(prenom);
-        personne.appendChild(fixe);
-        personne.appendChild(mobile);
-        personne.appendChild(email);
+        XMLContact.appendChild(XMLNom);
+        XMLContact.appendChild(XMLPrenom);
+        XMLContact.appendChild(XMLFixe);
+        XMLContact.appendChild(XMLMobile);
+        XMLContact.appendChild(XMLEmail);
 
-        personne.setAttribute("id", "999");
+        XMLNom.appendChild(document.createTextNode(nomValue));
+        XMLPrenom.appendChild(document.createTextNode(prenomValue));
+        XMLFixe.appendChild(document.createTextNode(fixeValue));
+        XMLMobile.appendChild(document.createTextNode(mobileValue));
+        XMLEmail.appendChild(document.createTextNode(emailValue));
 
-        nom.appendChild(document.createTextNode(nomValue));
-        prenom.appendChild(document.createTextNode(prenomValue));
-        fixe.appendChild(document.createTextNode(fixeValue));
-        mobile.appendChild(document.createTextNode(mobileValue));
-        email.appendChild(document.createTextNode(""));
+        WriteXMLFile();
+    }
 
+    public void EditXMLContact(Contact contact, String nomValue, String prenomValue, String fixeValue, String mobileValue, String emailValue) throws TransformerException {
+        Element XMLContact = contact.getXMLContact();
+
+        Element XMLNom = (Element) XMLContact.getElementsByTagName(NOM).item(0);
+        Element XMLPrenom = (Element) XMLContact.getElementsByTagName(PRENOM).item(0);
+        Element XMLFixe = (Element) XMLContact.getElementsByTagName(FIXE).item(0);
+        Element XMLMobile = (Element) XMLContact.getElementsByTagName(MOBILE).item(0);
+        Element XMLEmail = (Element) XMLContact.getElementsByTagName(EMAIL).item(0);
+
+        XMLNom.setTextContent(nomValue);
+        XMLPrenom.setTextContent(prenomValue);
+        XMLFixe.setTextContent(fixeValue);
+        XMLMobile.setTextContent(mobileValue);
+        XMLEmail.setTextContent(emailValue);
+
+        WriteXMLFile();
+    }
+
+    public void DeleteXMLContact(Element contactToDelete) throws TransformerException {
+        contactToDelete.getParentNode().removeChild(contactToDelete);
         WriteXMLFile();
     }
 }
