@@ -1,24 +1,26 @@
 package apps.contacts;
 
+import org.w3c.dom.Element;
+
 public class Contact {
-    private int id;
+    private Element XMLContact;
     private String prenom;
     private String nom;
     private String fixe;
     private String mobile;
     private String email;
 
-    public Contact(int id, String prenom, String nom, String fixe, String mobile, String email) {
-        this.id=id;
-        this.prenom=prenom;
+    public Contact(Element XMLContact, String nom, String prenom, String fixe, String mobile, String email) {
+        this.XMLContact=XMLContact;
         this.nom=nom;
+        this.prenom=prenom;
         this.fixe=fixe;
         this.mobile=mobile;
         this.email=email;
     }
 
-    public int getId() {
-        return id;
+    public Element getXMLContact() {
+        return XMLContact;
     }
 
     public String getPrenom() {

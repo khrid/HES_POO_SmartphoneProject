@@ -9,6 +9,8 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.text.ParseException;
+import java.util.logging.Logger;
 
 public class Smartphone extends JFrame {
 
@@ -19,7 +21,7 @@ public class Smartphone extends JFrame {
     private JLabel lblClock = new JLabel("", SwingConstants.LEFT);
     private JLabel lblBattery = new JLabel("", SwingConstants.RIGHT);
 
-    public Smartphone() {
+    public Smartphone() throws ParseException {
 
         // Pour stopper l'application au clic sur Close
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -57,9 +59,18 @@ public class Smartphone extends JFrame {
             pnlDrawer.getDrawerCards().show(pnlDrawer.getPnlApps(), "main");
             // On affiche le quicklaunch avec les boutons
             pnlQuicklaunch.setVisible(true);
+            //David
             // on
             //pnlMulti.remove(pnlDrawer);
             //pnlMulti.add(new Drawer(cards, pnlMulti, this), "drawer");
+
+            //Sylvain
+            /*pnlMulti.remove(pnlDrawer);
+            try {
+                pnlMulti.add(new Drawer(cards, pnlMulti), "drawer");
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }*/
         });
 
 

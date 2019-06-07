@@ -7,6 +7,7 @@ import apps.test.TestPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class Drawer extends AppPanel {
@@ -15,7 +16,8 @@ public class Drawer extends AppPanel {
     private JPanel pnlApps = new JPanel(drawerCards);
     private JPanel pnlDrawer = new JPanel(new GridLayout(0, 3));
 
-    public Drawer(CardLayout cards, JPanel pnlCards, Smartphone sm) {
+
+    public Drawer(CardLayout cards, JPanel pnlCards, Smartphone sm) throws ParseException {
         super(cards, pnlCards);
         setLayout(new BorderLayout());
 
