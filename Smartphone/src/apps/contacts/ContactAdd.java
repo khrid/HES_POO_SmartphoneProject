@@ -30,14 +30,19 @@ public class ContactAdd extends ContactBase {
 
     class SaveNewContact implements ActionListener {
         public void actionPerformed(ActionEvent arg0) {
-            System.out.println("New contact : " + textNom.getText() + " " + textPrenom.getText() + " " + textFixe.getText() + " " + textMobile.getText());
-            try {
-                controller.AddXMLContact(textNom.getText(),textPrenom.getText(),textFixe.getText(),textMobile.getText(),textEmail.getText());
-                parent.RefreshData();
-                parent.ShowContactsMain();
-                ResetFields();
-            } catch (TransformerException e) {
-                e.printStackTrace();
+            if(isEditValid()) {
+                System.out.println("New contact : " + textNom.getText() + " " + textPrenom.getText() + " " + textFixe.getText() + " " + textMobile.getText());
+                try {
+                    controller.AddXMLContact(textNom.getText(), textPrenom.getText(), textFixe.getText(), textMobile.getText(), textEmail.getText());
+                    parent.RefreshData();
+                    parent.ShowContactsMain();
+                    ResetFields();
+                } catch (TransformerException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("Information incorrect !");
+                lblUserMessages.setText("Numéro incorrect !");
             }
         }
     }

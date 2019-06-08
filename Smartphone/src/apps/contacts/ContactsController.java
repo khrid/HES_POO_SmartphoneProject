@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +17,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import apps.App;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -34,6 +37,7 @@ public class ContactsController {
     private DocumentBuilder builder;
     private Document document;
     private Element racine;
+    private ArrayList<Contact> unsortedContactsList;
     private DefaultListModel<Contact> contactsList;
 
     private void InitializeXMLFile(){
@@ -41,7 +45,7 @@ public class ContactsController {
 
         ClassLoader classLoader = getClass().getClassLoader();
         try {
-            path = URLDecoder.decode(classLoader.getResource("apps/contacts/contacts.xml").getFile(), "UTF-8");
+            path = URLDecoder.decode(classLoader.getResource("apps/contacts/contacts_2.xml").getFile(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -68,7 +72,8 @@ public class ContactsController {
     private void GetXMLContacts() {
         System.out.println("Contacts initializing");
 
-        contactsList.clear();
+        //contactsList.clear();
+        unsortedContactsList.clear();
 
         NodeList racineNoeuds = racine.getChildNodes();
         int nbRacineNoeuds = racineNoeuds.getLength();
@@ -82,12 +87,12 @@ public class ContactsController {
                 Element XMLMobile = (Element) XMLContact.getElementsByTagName(MOBILE).item(0);
                 Element XMLEmail = (Element) XMLContact.getElementsByTagName(EMAIL).item(0);
 
-                contactsList.addElement(new Contact(XMLContact,XMLNom.getTextContent(),XMLPrenom.getTextContent(),
+                unsortedContactsList.add(new Contact(XMLContact,XMLNom.getTextContent(),XMLPrenom.getTextContent(),
                         XMLFixe.getTextContent(),XMLMobile.getTextContent(),XMLEmail.getTextContent()));
             }
         }
         System.out.println("Contacts initialized");
-        System.out.println("Number of contacts : " + contactsList.size());
+        System.out.println("Number of contacts : " + unsortedContactsList.size());
     }
 
     private void WriteXMLFile() throws TransformerException {
@@ -105,11 +110,31 @@ public class ContactsController {
 
     public ContactsController() {
         contactsList = new DefaultListModel();
+        unsortedContactsList = new ArrayList<>();
         InitializeXMLFile();
+    }
+
+    public void SortContacts(){
+        /*
+        for (int i=0; i<unsortedContactsList.size();i++){
+            System.out.println(((Contact)unsortedContactsList.get(i)).getNom());
+        }
+         */
+
+        Collections.sort(unsortedContactsList);
+
+        contactsList.clear();
+
+        for (int i=0; i<unsortedContactsList.size();i++){
+            //System.out.println(unsortedContactsList.get(i).getNom());
+            contactsList.addElement(unsortedContactsList.get(i));
+        }
     }
 
     public DefaultListModel<Contact> GetContacts() {
         GetXMLContacts();
+
+        SortContacts();
 
         return contactsList;
     }
