@@ -6,6 +6,8 @@ import apps.gallery.GalleryPanel;
 import apps.test.TestPanel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -14,13 +16,15 @@ public class Drawer extends AppPanel {
     private boolean isVisible = false;
     private CardLayout drawerCards = new CardLayout();
     private JPanel pnlApps = new JPanel(drawerCards);
-    private JPanel pnlDrawer = new JPanel(new GridLayout(0, 3));
+    private JPanel pnlDrawer = new JPanel(new GridBagLayout());
+    GridBagConstraints c = new GridBagConstraints();
 
 
     public Drawer(CardLayout cards, JPanel pnlCards, Smartphone sm) throws ParseException {
         super(cards, pnlCards);
         setLayout(new BorderLayout());
 
+        c.gridx = c.gridy = 0;
 
         ArrayList<App> apps = new ArrayList<>();
         apps.add(new App("Contacts", new ContactsMain("Contacts")));
@@ -37,14 +41,22 @@ public class Drawer extends AppPanel {
                 drawerCards.show(pnlApps, a.getName());
                 System.out.println("Changing active app : "+a.getName()+" is active.");
             });
-            btn.setPreferredSize(new Dimension(75,75));
-            pnlDrawer.add(btn);
+            btn.setPreferredSize(new Dimension(100,100));
 
+            c.insets = new Insets(10,10,10,10);
+            pnlDrawer.add(btn, c);
+            if(c.gridx < 2) {
+                c.gridx++;
+            } else {
+                c.gridx = 0;
+                c.gridy++;
+            }
         }
         pnlApps.add(pnlDrawer, "main");
         add(pnlApps);
         drawerCards.show(pnlApps, "main");
-        setOpaque(false);
+        setOpaque(true);
+        repaint();
     }
 
     public CardLayout getDrawerCards() {
