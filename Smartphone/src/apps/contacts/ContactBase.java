@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 
 
@@ -30,21 +31,39 @@ public class ContactBase extends JPanel {
     protected JButton buttonCancel;
     protected JTextField textNom;
     protected JTextField textPrenom;
-    protected JFormattedTextField textFixe;
-    protected JFormattedTextField textMobile;
+    //protected JFormattedTextField textFixe;
+    //protected JFormattedTextField textMobile;
+
+    protected JNumberTextField textFixe;
+    protected JNumberTextField textMobile;
+
     protected JTextField textEmail;
 
     protected void ResetFields(){
         textNom.setText("");
         textPrenom.setText("");
         textFixe.setText("");
+        textFixe.setBackground(Color.white);
         textMobile.setText("");
+        textMobile.setBackground(Color.white);
         textEmail.setText("");
         lblUserMessages.setText("");
     }
 
     protected boolean isEditValid(){
+        /*if(!textFixe.isEditValid()){
+            textFixe.setBackground(Color.RED);
+        }
+
+        if(!textMobile.isEditValid()){
+            textMobile.setBackground(Color.RED);
+        }
+
         return (textFixe.isEditValid() && textMobile.isEditValid());
+
+         */
+
+        return true;
     }
 
     public ContactBase(ContactsMain parent, ContactsController controller) throws ParseException {
@@ -62,14 +81,22 @@ public class ContactBase extends JPanel {
         lblEmail=new JLabel("Email");
 
         mfFixe = new MaskFormatter("### ### ## ##");
-        mfFixe.setPlaceholderCharacter('_');
+        //mfFixe.setPlaceholderCharacter('_');
+
         mfMobile = new MaskFormatter("### ### ## ##");
-        mfMobile.setPlaceholderCharacter('_');
+        //mfMobile.setPlaceholderCharacter('_');
 
         textNom=new JTextField();
         textPrenom=new JTextField();
-        textFixe=new JFormattedTextField(mfFixe);
-        textMobile=new JFormattedTextField(mfMobile);
+        //textFixe=new JFormattedTextField(mfFixe);
+
+        textFixe=new JNumberTextField();
+
+        //textMobile=new JFormattedTextField(mfMobile);
+        //textMobile.setFocusLostBehavior(JFormattedTextField.PERSIST);
+
+        textMobile=new JNumberTextField();
+
         textEmail=new JTextField();
 
         pnlContactInformation.add(lblNom);
@@ -96,4 +123,19 @@ public class ContactBase extends JPanel {
         add(pnlBottom,BorderLayout.SOUTH);
     }
 
+}
+
+class JNumberTextField extends JTextField {
+
+    @Override
+    public void processKeyEvent(KeyEvent ev) {
+
+        // GERER CARACTERE RETOUR
+
+        if (Character.isDigit(ev.getKeyChar()) || ev.getKeyChar()==' ') {
+            super.processKeyEvent(ev);
+        }
+        ev.consume();
+        return;
+    }
 }

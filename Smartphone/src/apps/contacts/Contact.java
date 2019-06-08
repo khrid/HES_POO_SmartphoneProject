@@ -2,7 +2,7 @@ package apps.contacts;
 
 import org.w3c.dom.Element;
 
-public class Contact {
+public class Contact implements Comparable<Contact>{
     private Element XMLContact;
     private String prenom;
     private String nom;
@@ -43,4 +43,8 @@ public class Contact {
         return email;
     }
 
+    @Override
+    public int compareTo(Contact o) {
+        return this.nom.compareTo(o.nom);
+    }
 }

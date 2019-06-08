@@ -10,6 +10,11 @@ import java.text.ParseException;
 public class ContactEdit extends ContactDetail {
     private JButton buttonSave;
 
+    @Override
+    protected void InitializeFields(){
+        // DO NOTHING
+    }
+
     public ContactEdit(ContactsMain parent, ContactsController controller) throws ParseException {
         super(parent,controller);
 
@@ -34,7 +39,7 @@ public class ContactEdit extends ContactDetail {
                 parent.ShowContactsMain();
             } else {
                 System.out.println("Information incorrect !");
-                lblUserMessages.setText("Numéro incorrect !");
+                lblUserMessages.setText("Format numéro incorrect !");
             }
         }
     }
