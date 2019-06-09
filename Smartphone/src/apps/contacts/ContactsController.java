@@ -23,8 +23,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import smartphone.Smartphone;
 
 public class ContactsController {
+    public static final String CONTACTS_LOCATION = Smartphone.ROOT_DIR+"contacts/";
     private static final String ID = "id";
     private static final String NOM = "nom";
     private static final String PRENOM = "prenom";
@@ -42,13 +44,15 @@ public class ContactsController {
 
     private void InitializeXMLFile(){
         System.out.println("XML file initializing");
-
+        /*
         ClassLoader classLoader = getClass().getClassLoader();
         try {
-            path = URLDecoder.decode(classLoader.getResource("apps/contacts/contacts_2.xml").getFile(), "UTF-8");
+            //path = URLDecoder.decode(classLoader.getResource("apps/contacts/contacts.xml").getFile(), "UTF-8");
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-        }
+        }*/
+        path = CONTACTS_LOCATION+"contacts.xml";
 
         factory = DocumentBuilderFactory.newInstance();
         try {

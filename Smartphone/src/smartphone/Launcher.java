@@ -1,18 +1,20 @@
 package smartphone;
 
-import apps.gallery.GalleryController;
-import apps.gallery.GalleryItemPath;
+import apps.gallery.GalleryItem;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Launcher extends AppPanel {
+/**
+ *
+ */
+class Launcher extends AppPanel {
 
 
-    JLabel lblBackground = new JLabel("");
-    JLabel lblHeure = new JLabel("HEURE");
-    JLabel lblDate = new JLabel("test");
-    public Launcher(CardLayout cards, JPanel pnlMulti) {
+    private JLabel lblBackground = new JLabel("");
+    private JLabel lblHeure = new JLabel("HEURE");
+    private JLabel lblDate = new JLabel("test");
+    Launcher(CardLayout cards, JPanel pnlMulti) {
         super(cards, pnlMulti);
         setLayout(new BorderLayout());
         System.out.println("Launcher created");
@@ -29,13 +31,22 @@ public class Launcher extends AppPanel {
         lblBackground.add(lblDate, BorderLayout.CENTER);
     }
 
-    public void updateClock(String clock, String date) {
+
+    /**
+     * Mets à jour le contenu des JLabel contenant la date et l'heure
+     * @param clock Valeur de l'heure
+     * @param date Valeur de la date
+     */
+    void updateClock(String clock, String date) {
         lblHeure.setText(clock);
         lblDate.setText(date);
     }
 
-
-    public void updateBackground(GalleryItemPath gi) {
+    /**
+     * Permet de mettre à jour le fond d'écran du Smartphone
+     * @param gi GalleryItem à utiliser comme image de fond d'écran
+     */
+    void updateBackground(GalleryItem gi) {
         lblBackground.setIcon(new ImageIcon(gi.getImage().getScaledInstance(400,600, Image.SCALE_SMOOTH)));
         lblBackground.setSize(new Dimension(400,600));
         repaint();
