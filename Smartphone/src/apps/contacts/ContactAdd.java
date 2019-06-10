@@ -42,7 +42,7 @@ public class ContactAdd extends ContactBase {
                 }
             } else {
                 System.out.println("Information incorrect !");
-                lblUserMessages.setText("Numéro incorrect !");
+                lblUserMessages.setText("Saisie non valide !");
             }
         }
     }

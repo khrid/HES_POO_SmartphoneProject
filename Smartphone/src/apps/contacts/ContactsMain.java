@@ -118,7 +118,7 @@ public class ContactsMain extends AppPanel {
             if (value instanceof Contact) {
                 Contact contact = (Contact)value;
                 setText(contact.getNom() + " " + contact.getPrenom());
-                setToolTipText(contact.getFixe());
+                //setToolTipText(contact.getFixe());
             }
             return this;
         }
