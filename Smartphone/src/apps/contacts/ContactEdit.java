@@ -1,9 +1,6 @@
 package apps.contacts;
 
-import apps.gallery.GalleryItemPath;
-
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
 import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +10,7 @@ import java.util.ArrayList;
 
 public class ContactEdit extends ContactDetail {
     private JButton buttonSave;
-    private JComboBox<GalleryItemPath> cbPictures;
+    private JComboBox<String> cbPictures;
 
     @Override
     protected void InitializeFields(){
@@ -30,8 +27,8 @@ public class ContactEdit extends ContactDetail {
 
         // PLACER AUTRE PART
 
-        cbPictures=new JComboBox<>();
-        ArrayList<GalleryItemPath> myPictures=controller.GetAvailablePictures();
+        cbPictures=new JComboBox<String>();
+        ArrayList<String> myPictures=controller.GetAvailablePictures();
         for (int i=0;i<myPictures.size();i++){
             cbPictures.addItem(myPictures.get(i));
         }
