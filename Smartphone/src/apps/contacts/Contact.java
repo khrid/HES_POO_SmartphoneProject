@@ -9,14 +9,16 @@ public class Contact implements Comparable<Contact>{
     private String fixe;
     private String mobile;
     private String email;
+    private String picture;
 
-    public Contact(Element XMLContact, String nom, String prenom, String fixe, String mobile, String email) {
+    public Contact(Element XMLContact, String nom, String prenom, String fixe, String mobile, String email, String picture) {
         this.XMLContact=XMLContact;
         this.nom=nom;
         this.prenom=prenom;
         this.fixe=fixe;
         this.mobile=mobile;
         this.email=email;
+        this.picture=picture;
     }
 
     public Element getXMLContact() {
@@ -41,6 +43,10 @@ public class Contact implements Comparable<Contact>{
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPicture() {
+        return picture;
     }
 
     @Override

@@ -33,7 +33,8 @@ public class ContactAdd extends ContactBase {
             if(isEditValid()) {
                 System.out.println("New contact : " + textNom.getText() + " " + textPrenom.getText() + " " + textFixe.getText() + " " + textMobile.getText());
                 try {
-                    controller.AddXMLContact(textNom.getText(), textPrenom.getText(), textFixe.getText(), textMobile.getText(), textEmail.getText());
+                    controller.AddXMLContact(textNom.getText(), textPrenom.getText(), textFixe.getText(), textMobile.getText(), textEmail.getText(),
+                            (String)cbPictures.getSelectedItem());
                     parent.RefreshData();
                     parent.ShowContactsMain();
                     ResetFields();

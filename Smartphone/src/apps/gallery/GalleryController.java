@@ -41,7 +41,7 @@ public class GalleryController {
      * Renvoie les éléments de la galerie
      * @return ArrayList de GalleryItem
      */
-    ArrayList<GalleryItem> getItems() {
+    public ArrayList<GalleryItem> getItems() {
         return this.items;
     }
 
