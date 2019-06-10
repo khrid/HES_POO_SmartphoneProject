@@ -17,7 +17,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import apps.App;
+import apps.gallery.GalleryController;
+import apps.gallery.GalleryItemPath;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,7 +26,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class ContactsController {
-    private static final String ID = "id";
     private static final String NOM = "nom";
     private static final String PRENOM = "prenom";
     private static final String FIXE = "fixe";
@@ -45,7 +45,7 @@ public class ContactsController {
 
         ClassLoader classLoader = getClass().getClassLoader();
         try {
-            path = URLDecoder.decode(classLoader.getResource("apps/contacts/contacts_2.xml").getFile(), "UTF-8");
+            path = URLDecoder.decode(classLoader.getResource("apps/contacts/contacts.xml").getFile(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -96,12 +96,10 @@ public class ContactsController {
     }
 
     private void WriteXMLFile() throws TransformerException {
-        // write the content into xml file
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         DOMSource source = new DOMSource(document);
         StreamResult result = new StreamResult(new File(path));
-
         transformer.transform(source, result);
         System.out.println("File saved !");
     }
@@ -112,30 +110,35 @@ public class ContactsController {
         contactsList = new DefaultListModel();
         unsortedContactsList = new ArrayList<>();
         InitializeXMLFile();
+
+        //AddContactPicture();
     }
 
     public void SortContacts(){
-        /*
-        for (int i=0; i<unsortedContactsList.size();i++){
-            System.out.println(((Contact)unsortedContactsList.get(i)).getNom());
-        }
-         */
-
         Collections.sort(unsortedContactsList);
-
         contactsList.clear();
-
         for (int i=0; i<unsortedContactsList.size();i++){
-            //System.out.println(unsortedContactsList.get(i).getNom());
             contactsList.addElement(unsortedContactsList.get(i));
         }
     }
 
+    public ArrayList<GalleryItemPath> GetAvailablePictures(){
+        GalleryController gc = new GalleryController(0);
+        //System.out.println(gc.getItems().get(0).getPath());
+
+        ArrayList<GalleryItemPath> myItems=gc.getItems();
+        ComboBoxModel<GalleryItemPath> myComboItems;
+
+        for (int i=0;i<myItems.size();i++){
+
+        }
+
+        return myItems;
+    }
+
     public DefaultListModel<Contact> GetContacts() {
         GetXMLContacts();
-
         SortContacts();
-
         return contactsList;
     }
 
@@ -144,6 +147,10 @@ public class ContactsController {
         return contactsList.getElementAt(index);
     }
 
+    public void AddContactPicture(){
+        GalleryController gc = new GalleryController(0);
+        System.out.println(gc.getItems().get(0).getPath());
+    }
 
 
     public void AddXMLContact(String nomValue, String prenomValue, String fixeValue, String mobileValue, String emailValue) throws TransformerException {

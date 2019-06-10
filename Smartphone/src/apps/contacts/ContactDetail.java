@@ -15,7 +15,7 @@ public class ContactDetail extends ContactBase {
         textEmail.setEditable(false);
     }
 
-    public ContactDetail(ContactsMain parent, ContactsController controller) throws ParseException {
+    public ContactDetail(ContactsMain parent, ContactsController controller) {
         super(parent,controller);
         buttonCancel.addActionListener(new BackContactsList());
 

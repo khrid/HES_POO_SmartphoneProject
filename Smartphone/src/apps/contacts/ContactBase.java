@@ -2,25 +2,19 @@ package apps.contacts;
 
 
 import javax.swing.*;
-import javax.swing.text.MaskFormatter;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.text.ParseException;
 
 
 public class ContactBase extends JPanel {
     private JPanel pnlContactInformation;
+    private GridBagConstraints c;
 
     private JLabel lblNom;
     private JLabel lblPrenom;
     private JLabel lblFixe;
     private JLabel lblMobile;
     private JLabel lblEmail;
-
-    private MaskFormatter mfFixe;
-    private MaskFormatter mfMobile;
-
 
     protected ContactsMain parent;
     protected ContactsController controller;
@@ -31,8 +25,6 @@ public class ContactBase extends JPanel {
     protected JButton buttonCancel;
     protected JTextField textNom;
     protected JTextField textPrenom;
-    //protected JFormattedTextField textFixe;
-    //protected JFormattedTextField textMobile;
 
     protected JNumberTextField textFixe;
     protected JNumberTextField textMobile;
@@ -43,36 +35,70 @@ public class ContactBase extends JPanel {
         textNom.setText("");
         textPrenom.setText("");
         textFixe.setText("");
-        textFixe.setBackground(Color.white);
         textMobile.setText("");
-        textMobile.setBackground(Color.white);
         textEmail.setText("");
         lblUserMessages.setText("");
+        ResetTextFieldsWarning();
+    }
+
+    protected void ResetTextFieldsWarning(){
+        if(textNom.getBackground().equals(Color.RED))
+            textNom.setBackground(Color.WHITE);
+
+        if(textPrenom.getBackground().equals(Color.RED))
+            textPrenom.setBackground(Color.WHITE);
+
+        if(textFixe.getBackground().equals(Color.RED))
+            textFixe.setBackground(Color.WHITE);
+
+        if(textMobile.getBackground().equals(Color.RED))
+            textMobile.setBackground(Color.WHITE);
+
+        if(textEmail.getBackground().equals(Color.RED))
+            textEmail.setBackground(Color.WHITE);
+
+    }
+
+    protected void setTextFieldWarning(JTextField myTextField){
+        myTextField.setBackground(Color.RED);
+    }
+
+    protected boolean isEmailValid() {
+        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w-]+\\.)+[\\w]+[\\w]$";
+        boolean isValid=(textEmail.getText().matches(regex) || textEmail.getText().equals(""));
+        if (!isValid)
+            setTextFieldWarning(textEmail);
+
+        return isValid;
+    }
+
+    protected boolean isFirstameValid() {
+        boolean isValid=!(textNom.getText().equals(""));
+        if (!isValid)
+            setTextFieldWarning(textNom);
+
+        return isValid;
     }
 
     protected boolean isEditValid(){
-        /*if(!textFixe.isEditValid()){
-            textFixe.setBackground(Color.RED);
-        }
-
-        if(!textMobile.isEditValid()){
-            textMobile.setBackground(Color.RED);
-        }
-
-        return (textFixe.isEditValid() && textMobile.isEditValid());
-
-         */
-
-        return true;
+        ResetTextFieldsWarning();
+        return (isFirstameValid() && isEmailValid());
     }
 
-    public ContactBase(ContactsMain parent, ContactsController controller) throws ParseException {
+    public ContactBase(ContactsMain parent, ContactsController controller) {
         this.parent=parent;
         this.controller=controller;
 
         setLayout(new BorderLayout());
 
-        pnlContactInformation=new JPanel(new GridLayout(5,2));
+        //pnlContactInformation=new JPanel(new GridLayout(5,2));
+
+        pnlContactInformation=new JPanel(new GridBagLayout());
+        c=new GridBagConstraints();
+        c.insets = new Insets(10,10,10,10);
+        c.gridx=c.gridy=0;
+        c.weightx=1.;
+        c.fill=GridBagConstraints.HORIZONTAL;
 
         lblNom=new JLabel("Nom");
         lblPrenom=new JLabel("Prénom");
@@ -80,35 +106,35 @@ public class ContactBase extends JPanel {
         lblMobile=new JLabel("Mobile");
         lblEmail=new JLabel("Email");
 
-        mfFixe = new MaskFormatter("### ### ## ##");
-        //mfFixe.setPlaceholderCharacter('_');
-
-        mfMobile = new MaskFormatter("### ### ## ##");
-        //mfMobile.setPlaceholderCharacter('_');
-
         textNom=new JTextField();
         textPrenom=new JTextField();
-        //textFixe=new JFormattedTextField(mfFixe);
-
         textFixe=new JNumberTextField();
-
-        //textMobile=new JFormattedTextField(mfMobile);
-        //textMobile.setFocusLostBehavior(JFormattedTextField.PERSIST);
-
         textMobile=new JNumberTextField();
-
         textEmail=new JTextField();
 
-        pnlContactInformation.add(lblNom);
-        pnlContactInformation.add(textNom);
-        pnlContactInformation.add(lblPrenom);
-        pnlContactInformation.add(textPrenom);
-        pnlContactInformation.add(lblFixe);
-        pnlContactInformation.add(textFixe);
-        pnlContactInformation.add(lblMobile);
-        pnlContactInformation.add(textMobile);
-        pnlContactInformation.add(lblEmail);
-        pnlContactInformation.add(textEmail);
+        pnlContactInformation.add(lblNom,c);
+        c.gridx++;
+        pnlContactInformation.add(textNom,c);
+        c.gridx--;
+        c.gridy++;
+        pnlContactInformation.add(lblPrenom,c);
+        c.gridx++;
+        pnlContactInformation.add(textPrenom,c);
+        c.gridx--;
+        c.gridy++;
+        pnlContactInformation.add(lblFixe,c);
+        c.gridx++;
+        pnlContactInformation.add(textFixe,c);
+        c.gridx--;
+        c.gridy++;
+        pnlContactInformation.add(lblMobile,c);
+        c.gridx++;
+        pnlContactInformation.add(textMobile,c);
+        c.gridx--;
+        c.gridy++;
+        pnlContactInformation.add(lblEmail,c);
+        c.gridx++;
+        pnlContactInformation.add(textEmail,c);
 
         pnlBottom=new JPanel(new BorderLayout());
         lblUserMessages=new JLabel();
@@ -121,6 +147,7 @@ public class ContactBase extends JPanel {
 
         add(pnlContactInformation);
         add(pnlBottom,BorderLayout.SOUTH);
+        //repaint();
     }
 
 }
@@ -129,10 +156,7 @@ class JNumberTextField extends JTextField {
 
     @Override
     public void processKeyEvent(KeyEvent ev) {
-
-        // GERER CARACTERE RETOUR
-
-        if (Character.isDigit(ev.getKeyChar()) || ev.getKeyChar()==' ') {
+        if (Character.isDigit(ev.getKeyChar()) || ev.getKeyChar()==' ' || ev.getKeyChar()=='\b') {
             super.processKeyEvent(ev);
         }
         ev.consume();
