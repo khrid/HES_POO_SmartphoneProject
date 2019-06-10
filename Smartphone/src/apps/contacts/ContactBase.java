@@ -1,9 +1,17 @@
 package apps.contacts;
 
+import apps.gallery.GalleryController;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class ContactBase extends JPanel {
@@ -15,6 +23,7 @@ public class ContactBase extends JPanel {
     private JLabel lblFixe;
     private JLabel lblMobile;
     private JLabel lblEmail;
+    private JLabel lblPicture;
 
     protected ContactsMain parent;
     protected ContactsController controller;
@@ -25,11 +34,12 @@ public class ContactBase extends JPanel {
     protected JButton buttonCancel;
     protected JTextField textNom;
     protected JTextField textPrenom;
-
     protected JNumberTextField textFixe;
     protected JNumberTextField textMobile;
-
     protected JTextField textEmail;
+    protected JComboBox<String> cbPictures;
+    protected JLabel lblPictureContainer;
+
 
     protected void ResetFields(){
         textNom.setText("");
@@ -37,6 +47,8 @@ public class ContactBase extends JPanel {
         textFixe.setText("");
         textMobile.setText("");
         textEmail.setText("");
+        FillPicturesCombo();
+        cbPictures.setSelectedIndex(0);
         lblUserMessages.setText("");
         ResetTextFieldsWarning();
     }
@@ -85,13 +97,42 @@ public class ContactBase extends JPanel {
         return (isFirstameValid() && isEmailValid());
     }
 
+    protected void FillPicturesCombo(){
+        cbPictures.removeAllItems();
+        cbPictures.addItem("");
+        ArrayList<String> myPictures=controller.GetAvailablePictures();
+        for (int i=0;i<myPictures.size();i++){
+            cbPictures.addItem(myPictures.get(i));
+        }
+    }
+
+    protected void SetPictureInContainer(String picture){
+        lblUserMessages.setText("");
+
+        if (picture!="" && picture!=null){
+            BufferedImage img = null;
+            File f = new File(GalleryController.GALLERY_LOCATION + picture);
+            try {
+                img = ImageIO.read(f);
+                lblPictureContainer.setIcon(new ImageIcon(img.getScaledInstance(100,100, Image.SCALE_SMOOTH)));
+                lblPictureContainer.setSize(new Dimension(100, 100));
+            } catch (IOException e) {
+                //e.printStackTrace();
+                lblUserMessages.setText("Problème au chargement de l'image");
+            }
+
+        } else{
+            lblPictureContainer.setIcon(null);
+
+        }
+        repaint();
+    }
+
     public ContactBase(ContactsMain parent, ContactsController controller) {
         this.parent=parent;
         this.controller=controller;
 
         setLayout(new BorderLayout());
-
-        //pnlContactInformation=new JPanel(new GridLayout(5,2));
 
         pnlContactInformation=new JPanel(new GridBagLayout());
         c=new GridBagConstraints();
@@ -100,18 +141,30 @@ public class ContactBase extends JPanel {
         c.weightx=1.;
         c.fill=GridBagConstraints.HORIZONTAL;
 
+        // Initialisation des composants graphiques
         lblNom=new JLabel("Nom");
         lblPrenom=new JLabel("Prénom");
         lblFixe=new JLabel("Fixe");
         lblMobile=new JLabel("Mobile");
         lblEmail=new JLabel("Email");
+        lblPicture=new JLabel("Image");
 
         textNom=new JTextField();
         textPrenom=new JTextField();
         textFixe=new JNumberTextField();
         textMobile=new JNumberTextField();
         textEmail=new JTextField();
+        cbPictures=new JComboBox<String>();
 
+        cbPictures.addActionListener (new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                SetPictureInContainer((String)cbPictures.getSelectedItem());
+            }
+        });
+
+        lblPictureContainer=new JLabel();
+
+        // Placement des composants sur la grille
         pnlContactInformation.add(lblNom,c);
         c.gridx++;
         pnlContactInformation.add(textNom,c);
@@ -135,6 +188,14 @@ public class ContactBase extends JPanel {
         pnlContactInformation.add(lblEmail,c);
         c.gridx++;
         pnlContactInformation.add(textEmail,c);
+        c.gridx--;
+        c.gridy++;
+        pnlContactInformation.add(lblPicture,c);
+        c.gridx++;
+        pnlContactInformation.add(cbPictures,c);
+        c.gridx--;
+        c.gridy++;
+        pnlContactInformation.add(lblPictureContainer,c);
 
         pnlBottom=new JPanel(new BorderLayout());
         lblUserMessages=new JLabel();
@@ -147,7 +208,6 @@ public class ContactBase extends JPanel {
 
         add(pnlContactInformation);
         add(pnlBottom,BorderLayout.SOUTH);
-        //repaint();
     }
 
 }

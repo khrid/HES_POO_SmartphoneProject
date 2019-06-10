@@ -25,12 +25,12 @@ import java.util.Collections;
 
 public class ContactsController {
     public static final String CONTACTS_LOCATION = Smartphone.ROOT_DIR+"contacts/";
-    private static final String ID = "id";
     private static final String NOM = "nom";
     private static final String PRENOM = "prenom";
     private static final String FIXE = "fixe";
     private static final String MOBILE = "mobile";
     private static final String EMAIL = "email";
+    private static final String PICTURE = "picture";
 
     private String path;
     private DocumentBuilderFactory factory;
@@ -42,13 +42,6 @@ public class ContactsController {
 
     private void InitializeXMLFile(){
         System.out.println("XML file initializing");
-        /*
-        ClassLoader classLoader = getClass().getClassLoader();
-        try {
-        path = URLDecoder.decode(classLoader.getResource("apps/contacts/contacts.xml").getFile(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }*/
         path = CONTACTS_LOCATION+"contacts.xml";
 
         factory = DocumentBuilderFactory.newInstance();
@@ -87,9 +80,10 @@ public class ContactsController {
                 Element XMLFixe = (Element) XMLContact.getElementsByTagName(FIXE).item(0);
                 Element XMLMobile = (Element) XMLContact.getElementsByTagName(MOBILE).item(0);
                 Element XMLEmail = (Element) XMLContact.getElementsByTagName(EMAIL).item(0);
+                Element XMLPicture = (Element) XMLContact.getElementsByTagName(PICTURE).item(0);
 
                 unsortedContactsList.add(new Contact(XMLContact,XMLNom.getTextContent(),XMLPrenom.getTextContent(),
-                        XMLFixe.getTextContent(),XMLMobile.getTextContent(),XMLEmail.getTextContent()));
+                        XMLFixe.getTextContent(),XMLMobile.getTextContent(),XMLEmail.getTextContent(),XMLPicture.getTextContent()));
             }
         }
         System.out.println("Contacts initialized");
@@ -126,7 +120,7 @@ public class ContactsController {
     public ArrayList<String> GetAvailablePictures(){
         GalleryController gc = new GalleryController();
 
-        ArrayList<GalleryItemPath> myItemsPath=gc.getItems();
+        ArrayList<GalleryItem> myItemsPath=gc.getItems();
         ArrayList<String> myStringPath=new ArrayList<>();
 
         for (int i=0;i<myItemsPath.size();i++){
@@ -147,13 +141,8 @@ public class ContactsController {
         return contactsList.getElementAt(index);
     }
 
-    public void AddContactPicture(){
-        GalleryController gc = new GalleryController(   );
-        System.out.println(gc.getItems().get(0).getPath());
-    }
 
-
-    public void AddXMLContact(String nomValue, String prenomValue, String fixeValue, String mobileValue, String emailValue) throws TransformerException {
+    public void AddXMLContact(String nomValue, String prenomValue, String fixeValue, String mobileValue, String emailValue, String pictureValue) throws TransformerException {
         Element XMLContact = document.createElement("contact");
         racine.appendChild(XMLContact);
 
@@ -162,23 +151,26 @@ public class ContactsController {
         Element XMLFixe = document.createElement(FIXE);
         Element XMLMobile = document.createElement(MOBILE);
         Element XMLEmail = document.createElement(EMAIL);
+        Element XMLPicture = document.createElement(PICTURE);
 
         XMLContact.appendChild(XMLNom);
         XMLContact.appendChild(XMLPrenom);
         XMLContact.appendChild(XMLFixe);
         XMLContact.appendChild(XMLMobile);
         XMLContact.appendChild(XMLEmail);
+        XMLContact.appendChild(XMLPicture);
 
         XMLNom.appendChild(document.createTextNode(nomValue));
         XMLPrenom.appendChild(document.createTextNode(prenomValue));
         XMLFixe.appendChild(document.createTextNode(fixeValue));
         XMLMobile.appendChild(document.createTextNode(mobileValue));
         XMLEmail.appendChild(document.createTextNode(emailValue));
+        XMLPicture.appendChild(document.createTextNode(pictureValue));
 
         WriteXMLFile();
     }
 
-    public void EditXMLContact(Contact contact, String nomValue, String prenomValue, String fixeValue, String mobileValue, String emailValue) throws TransformerException {
+    public void EditXMLContact(Contact contact, String nomValue, String prenomValue, String fixeValue, String mobileValue, String emailValue, String pictureValue) throws TransformerException {
         Element XMLContact = contact.getXMLContact();
 
         Element XMLNom = (Element) XMLContact.getElementsByTagName(NOM).item(0);
@@ -186,12 +178,14 @@ public class ContactsController {
         Element XMLFixe = (Element) XMLContact.getElementsByTagName(FIXE).item(0);
         Element XMLMobile = (Element) XMLContact.getElementsByTagName(MOBILE).item(0);
         Element XMLEmail = (Element) XMLContact.getElementsByTagName(EMAIL).item(0);
+        Element XMLPicture = (Element) XMLContact.getElementsByTagName(PICTURE).item(0);
 
         XMLNom.setTextContent(nomValue);
         XMLPrenom.setTextContent(prenomValue);
         XMLFixe.setTextContent(fixeValue);
         XMLMobile.setTextContent(mobileValue);
         XMLEmail.setTextContent(emailValue);
+        XMLPicture.setTextContent(pictureValue);
 
         WriteXMLFile();
     }

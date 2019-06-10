@@ -1,8 +1,15 @@
 package apps.contacts;
 
+import apps.gallery.GalleryController;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class ContactDetail extends ContactBase {
     protected Contact contact;
@@ -13,6 +20,7 @@ public class ContactDetail extends ContactBase {
         textFixe.setEditable(false);
         textMobile.setEditable(false);
         textEmail.setEditable(false);
+        cbPictures.setEnabled(false);
     }
 
     public ContactDetail(ContactsMain parent, ContactsController controller) {
@@ -29,6 +37,8 @@ public class ContactDetail extends ContactBase {
         textFixe.setText(contact.getFixe());
         textMobile.setText(contact.getMobile());
         textEmail.setText(contact.getEmail());
+        cbPictures.setSelectedItem(contact.getPicture());
+        SetPictureInContainer(contact.getPicture());
     }
 
     // LISTENERS

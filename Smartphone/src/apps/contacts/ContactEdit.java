@@ -6,11 +6,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
-import java.util.ArrayList;
 
 public class ContactEdit extends ContactDetail {
     private JButton buttonSave;
-    private JComboBox<String> cbPictures;
 
     @Override
     protected void InitializeFields(){
@@ -23,16 +21,9 @@ public class ContactEdit extends ContactDetail {
         pnlButtons.setLayout(new GridLayout(1,2));
         buttonSave=new JButton("Save");
         buttonSave.addActionListener(new SaveEditedContact());
-        //pnlButtons.add(buttonSave);
+        pnlButtons.add(buttonSave);
 
-        // PLACER AUTRE PART
-
-        cbPictures=new JComboBox<String>();
-        ArrayList<String> myPictures=controller.GetAvailablePictures();
-        for (int i=0;i<myPictures.size();i++){
-            cbPictures.addItem(myPictures.get(i));
-        }
-        pnlButtons.add(cbPictures);
+        FillPicturesCombo();
     }
 
 
@@ -42,7 +33,8 @@ public class ContactEdit extends ContactDetail {
             if(isEditValid()) {
                 System.out.println("Edited contact : " + textNom.getText() + " " + textPrenom.getText() + " " + textFixe.getText() + " " + textMobile.getText());
                 try {
-                    controller.EditXMLContact(contact, textNom.getText(), textPrenom.getText(), textFixe.getText(), textMobile.getText(), textEmail.getText());
+                    controller.EditXMLContact(contact, textNom.getText(), textPrenom.getText(), textFixe.getText(), textMobile.getText(), textEmail.getText(),
+                            (String)cbPictures.getSelectedItem());
                 } catch (TransformerException e) {
                     e.printStackTrace();
                 }
