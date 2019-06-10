@@ -1,30 +1,33 @@
 package smartphone;
 
-import apps.gallery.GalleryItemPath;
+import apps.gallery.GalleryController;
+import apps.gallery.GalleryItem;
 import ext.Kernel32;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.*;
-import java.net.URL;
-import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.text.ParseException;
-import java.util.Objects;
-import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
 
 public class Smartphone extends JFrame {
 
+    public static final String ROOT_DIR = "C:/tmp/smartphone/";
     private final CardLayout cards = new CardLayout();
     private final JPanel pnlMulti = new JPanel(cards);
     private Launcher pnlLauncher;
     private JPanel pnlQuicklaunch = new JPanel(new GridLayout(1, 5, 5, 0));
     private JLabel lblClock = new JLabel("", SwingConstants.LEFT);
     private JLabel lblBattery = new JLabel("", SwingConstants.RIGHT);
-    private Color colBackground = Color.decode("#696a6d");
+    private GalleryController gc;
+
 
     public Smartphone() throws ParseException {
 
@@ -36,6 +39,28 @@ public class Smartphone extends JFrame {
         setSize(new Dimension(400, 600));
         // Pour ne pas pouvoir redimensionner
         setResizable(false);
+
+        // Check structure de fichiers
+        File directory = new File(ROOT_DIR);
+        if (!directory.exists()) {
+            directory.mkdirs();
+            String[] subdirs = {"gallery", "contacts", "res"};
+            for (int i = 0; i < subdirs.length; i++) {
+                new File(ROOT_DIR + subdirs[i]).mkdir();
+            }
+            try {
+                File contactFile = new File(ROOT_DIR+"/contacts/contacts.xml");
+                contactFile.createNewFile();
+                String contactXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><contacts></contacts>";
+
+                Files.write(Paths.get(ROOT_DIR+"contacts/contacts.xml"), Collections.singleton(contactXml), StandardCharsets.UTF_8);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        gc = new GalleryController();
 
         // Construction du Launcher ( = homescreen)
         pnlLauncher = new Launcher(cards, pnlMulti);
@@ -65,18 +90,6 @@ public class Smartphone extends JFrame {
             pnlDrawer.getDrawerCards().show(pnlDrawer.getPnlApps(), "main");
             // On affiche le quicklaunch avec les boutons
             pnlQuicklaunch.setVisible(true);
-            //David
-            // on
-            //pnlMulti.remove(pnlDrawer);
-            //pnlMulti.add(new Drawer(cards, pnlMulti, this), "drawer");
-
-            //Sylvain
-            /*pnlMulti.remove(pnlDrawer);
-            try {
-                pnlMulti.add(new Drawer(cards, pnlMulti), "drawer");
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }*/
         });
 
 
@@ -110,6 +123,7 @@ public class Smartphone extends JFrame {
 
         // Population de la bare du haut avec les labels
         JPanel pnlTop = new JPanel(new GridLayout(0, 5));
+        Color colBackground = Color.decode("#696a6d");
         pnlTop.setBackground(colBackground);
         pnlTop.setOpaque(true);
         pnlTop.add(lblClock);
@@ -142,19 +156,20 @@ public class Smartphone extends JFrame {
         setBackground(colBackground);
 
         // Gestion du "fond d'écran", si on l'avait déjà configuré on le reprend
-        URL u = getClass().getClassLoader().getResource("res/background.ser");
-        File f = new File(Objects.requireNonNull(URLDecoder.decode(String.valueOf(u))));
+        File f = new File(ROOT_DIR+"/res/background.ser");
         ObjectInputStream is;
         if (f.exists() && !f.isDirectory()) {
-            GalleryItemPath gipFromDisk = null;
+            GalleryItem gipFromDisk = null;
             try {
                 is = new ObjectInputStream(new FileInputStream(f));
-                gipFromDisk = (GalleryItemPath) is.readObject();
+                gipFromDisk = (GalleryItem) is.readObject();
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
             assert gipFromDisk != null;
-            pnlLauncher.updateBackground(gipFromDisk);
+            if (Files.exists(Paths.get(GalleryController.GALLERY_LOCATION+ gipFromDisk.getPath()))) {
+                pnlLauncher.updateBackground(gipFromDisk);
+            }
         }
 
         // Gestion de l'affichage du pourcentage de batterie + heure
@@ -179,13 +194,13 @@ public class Smartphone extends JFrame {
      *
      * @param gi l'image à utiliser
      */
-    public void updateBackground(GalleryItemPath gi) {
+    public void updateBackground(GalleryItem gi) {
         // On met à jour le fond d'écran dans le panel
         pnlLauncher.updateBackground(gi);
 
         // Pour s'assurer que le fichier background existe
-        URL u = getClass().getClassLoader().getResource("res/background.ser");
-        File f = new File(Objects.requireNonNull(URLDecoder.decode(String.valueOf(u))));
+        //URL u = getClass().getClassLoader().getResource("res/background.ser");
+        File f = new File(ROOT_DIR+"/res/background.ser");
         try {
             f.createNewFile();
         } catch (IOException e) {
@@ -195,11 +210,6 @@ public class Smartphone extends JFrame {
         // on tente d'écrire l'image actuelle sérialisée dans un stream
         try {
             ObjectOutputStream oos = new ObjectOutputStream(
-                    // By using "FileOutputStream" we will
-                    // Write it to a File in the file system
-                    // It could have been a Socket to another
-                    // machine, a database, an in memory array, etc.
-
                     new FileOutputStream(f));
             oos.writeObject(gi);
             oos.close();
@@ -207,5 +217,9 @@ public class Smartphone extends JFrame {
             e.printStackTrace();
         }
 
+    }
+
+    public GalleryController getGalleryController() {
+        return this.gc;
     }
 }

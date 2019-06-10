@@ -6,9 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 
 class GalleryShow extends JPanel {
-    private GalleryItemPath gip;
+    private GalleryItem gip;
     private JLabel lbl = new JLabel();
-    GalleryShow(CardLayout cl, JPanel pnl, GalleryItemPath galleryItem, int gallerySize, Smartphone sm) {
+    GalleryShow(CardLayout cl, JPanel pnl, GalleryItem galleryItem, int gallerySize, Smartphone sm, JPanel pnlActionsParent, GalleryPanel galleryPanel) {
 
         // Création de l'interface graphique
         setLayout(new BorderLayout());
@@ -16,11 +16,13 @@ class GalleryShow extends JPanel {
         JPanel pnlActions = new JPanel();
         JButton btnPrevious = new JButton("<");
         JButton btnBack = new JButton("Back");
+        JButton btnRemove = new JButton("Delete");
         JButton btnSetAs = new JButton("Update home");
         JButton btnNext = new JButton(">");
-        pnlActions.setLayout(new GridLayout(0, 4));
+        pnlActions.setLayout(new GridLayout(0, 5));
         pnlActions.add(btnPrevious);
         pnlActions.add(btnBack);
+        pnlActions.add(btnRemove);
         pnlActions.add(btnSetAs);
         pnlActions.add(btnNext);
         add(lbl);
@@ -48,14 +50,26 @@ class GalleryShow extends JPanel {
 
 
         // Clic sur le bouton "Back" pour revenir à la galerie
-        btnBack.addActionListener(e -> cl.show(pnl, "gallery"));
+        btnBack.addActionListener(e -> {
+            cl.show(pnl, "gallery");
+            pnlActionsParent.setVisible(true);
+        });
+
+        // Clic sur le bouton "Remove" pour supprimer une image
+        btnRemove.addActionListener(e -> {
+            sm.getGalleryController().removeItem(this.gip.getId());
+            sm.getGalleryController().buildGalleryItems();
+            galleryPanel.refreshGallery(sm);
+            cl.show(pnl, "gallery");
+            pnlActionsParent.setVisible(true);
+        });
 
         // Clic sur le bouton "Update home" pour changer le fond d'écran
         btnSetAs.addActionListener(e -> sm.updateBackground(gip));
 
     }
 
-    private void setGalleryItem(GalleryItemPath gi) {
+    private void setGalleryItem(GalleryItem gi) {
         //this.galleryItem = gi;
         this.gip = gi;
         lbl.setIcon(new ImageIcon(this.gip.getImage().getScaledInstance(380,500, Image.SCALE_SMOOTH)));
