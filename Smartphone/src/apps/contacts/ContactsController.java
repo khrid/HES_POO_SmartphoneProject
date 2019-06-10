@@ -1,11 +1,13 @@
 package apps.contacts;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Collections;
+import apps.gallery.GalleryController;
+import apps.gallery.GalleryItem;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import smartphone.Smartphone;
 
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -16,15 +18,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import apps.gallery.GalleryController;
-import apps.gallery.GalleryItemPath;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import smartphone.Smartphone;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class ContactsController {
     public static final String CONTACTS_LOCATION = Smartphone.ROOT_DIR+"contacts/";
@@ -127,7 +124,7 @@ public class ContactsController {
     }
 
     public ArrayList<String> GetAvailablePictures(){
-        GalleryController gc = new GalleryController(0);
+        GalleryController gc = new GalleryController();
 
         ArrayList<GalleryItemPath> myItemsPath=gc.getItems();
         ArrayList<String> myStringPath=new ArrayList<>();
@@ -151,7 +148,7 @@ public class ContactsController {
     }
 
     public void AddContactPicture(){
-        GalleryController gc = new GalleryController(0);
+        GalleryController gc = new GalleryController(   );
         System.out.println(gc.getItems().get(0).getPath());
     }
 
