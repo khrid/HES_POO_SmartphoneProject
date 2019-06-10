@@ -122,18 +122,17 @@ public class ContactsController {
         }
     }
 
-    public ArrayList<GalleryItemPath> GetAvailablePictures(){
+    public ArrayList<String> GetAvailablePictures(){
         GalleryController gc = new GalleryController(0);
-        //System.out.println(gc.getItems().get(0).getPath());
 
-        ArrayList<GalleryItemPath> myItems=gc.getItems();
-        ComboBoxModel<GalleryItemPath> myComboItems;
+        ArrayList<GalleryItemPath> myItemsPath=gc.getItems();
+        ArrayList<String> myStringPath=new ArrayList<>();
 
-        for (int i=0;i<myItems.size();i++){
-
+        for (int i=0;i<myItemsPath.size();i++){
+            myStringPath.add(myItemsPath.get(i).getPath());
         }
 
-        return myItems;
+        return myStringPath;
     }
 
     public DefaultListModel<Contact> GetContacts() {
