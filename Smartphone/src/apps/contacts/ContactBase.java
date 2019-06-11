@@ -5,8 +5,6 @@ import apps.gallery.GalleryController;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -117,7 +115,6 @@ public class ContactBase extends JPanel {
                 lblPictureContainer.setIcon(new ImageIcon(img.getScaledInstance(100,100, Image.SCALE_SMOOTH)));
                 lblPictureContainer.setSize(new Dimension(100, 100));
             } catch (IOException e) {
-                //e.printStackTrace();
                 lblUserMessages.setText("Problème au chargement de l'image");
             }
 
@@ -154,13 +151,9 @@ public class ContactBase extends JPanel {
         textFixe=new JNumberTextField();
         textMobile=new JNumberTextField();
         textEmail=new JTextField();
-        cbPictures=new JComboBox<String>();
+        cbPictures=new JComboBox<>();
 
-        cbPictures.addActionListener (new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                SetPictureInContainer((String)cbPictures.getSelectedItem());
-            }
-        });
+        cbPictures.addActionListener (e -> SetPictureInContainer((String)cbPictures.getSelectedItem()));
 
         lblPictureContainer=new JLabel();
 
@@ -212,6 +205,7 @@ public class ContactBase extends JPanel {
 
 }
 
+// Composant pour les numéros de téléphone
 class JNumberTextField extends JTextField {
 
     @Override

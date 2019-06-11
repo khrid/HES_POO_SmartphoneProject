@@ -66,7 +66,6 @@ public class ContactsController {
     private void GetXMLContacts() {
         System.out.println("Contacts initializing");
 
-        //contactsList.clear();
         unsortedContactsList.clear();
 
         NodeList racineNoeuds = racine.getChildNodes();
@@ -87,7 +86,7 @@ public class ContactsController {
             }
         }
         System.out.println("Contacts initialized");
-        System.out.println("Number of contacts : " + unsortedContactsList.size());
+        System.out.println("Number of contacts : " + GetContactsCount());
     }
 
     private void WriteXMLFile() throws TransformerException {
@@ -105,8 +104,6 @@ public class ContactsController {
         contactsList = new DefaultListModel();
         unsortedContactsList = new ArrayList<>();
         InitializeXMLFile();
-
-        //AddContactPicture();
     }
 
     public void SortContacts(){
@@ -116,6 +113,8 @@ public class ContactsController {
             contactsList.addElement(unsortedContactsList.get(i));
         }
     }
+
+
 
     public ArrayList<String> GetAvailablePictures(){
         GalleryController gc = new GalleryController();
@@ -134,6 +133,10 @@ public class ContactsController {
         GetXMLContacts();
         SortContacts();
         return contactsList;
+    }
+
+    public int GetContactsCount(){
+        return unsortedContactsList.size();
     }
 
     public Contact GetContactAt(int index){

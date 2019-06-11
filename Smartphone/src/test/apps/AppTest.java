@@ -1,5 +1,6 @@
-package apps;
+package test.apps;
 
+import apps.App;
 import org.junit.jupiter.api.Test;
 import smartphone.AppPanel;
 

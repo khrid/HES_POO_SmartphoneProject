@@ -1,3 +1,5 @@
+package test;
+
 import apps.gallery.GalleryItem;
 import org.junit.jupiter.api.Test;
 import smartphone.Smartphone;
