@@ -1,5 +1,6 @@
-package apps.contacts;
+package contacts;
 
+import apps.contacts.ContactsController;
 import org.junit.jupiter.api.Test;
 
 import javax.xml.transform.TransformerException;

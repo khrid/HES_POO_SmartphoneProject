@@ -1,5 +1,6 @@
-package apps.contacts;
+package contacts;
 
+import apps.contacts.Contact;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Element;
 
