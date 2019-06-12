@@ -2,7 +2,6 @@ package smartphone;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 
 public class AppPanel extends JPanel {
     private String appName = "";

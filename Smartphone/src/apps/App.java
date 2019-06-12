@@ -2,8 +2,6 @@ package apps;
 
 import smartphone.AppPanel;
 
-import javax.swing.*;
-
 public class App {
     private String name;
     private AppPanel panel;
