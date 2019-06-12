@@ -5,7 +5,6 @@ import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 
 public class ContactEdit extends ContactDetail {
     private JButton buttonSave;
@@ -15,7 +14,7 @@ public class ContactEdit extends ContactDetail {
         // DO NOTHING
     }
 
-    public ContactEdit(ContactsMain parent, ContactsController controller) throws ParseException {
+    public ContactEdit(ContactsMain parent, ContactsController controller) {
         super(parent,controller);
 
         pnlButtons.setLayout(new GridLayout(1,2));
@@ -36,7 +35,7 @@ public class ContactEdit extends ContactDetail {
                     controller.EditXMLContact(contact, textNom.getText(), textPrenom.getText(), textFixe.getText(), textMobile.getText(), textEmail.getText(),
                             (String)cbPictures.getSelectedItem());
                 } catch (TransformerException e) {
-                    e.printStackTrace();
+                    lblUserMessages.setText("Problème d'accès à la base de données !");
                 }
                 parent.RefreshData();
                 parent.ShowContactsMain();

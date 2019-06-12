@@ -107,7 +107,6 @@ public class ContactsMain extends AppPanel {
     }
 
 
-    // Drawing Table's Cells class
     class ContactListCellRenderer extends DefaultListCellRenderer {
         public Component getListCellRendererComponent(JList<?> list,
                                                       Object value,
@@ -118,7 +117,6 @@ public class ContactsMain extends AppPanel {
             if (value instanceof Contact) {
                 Contact contact = (Contact)value;
                 setText(contact.getNom() + " " + contact.getPrenom());
-                //setToolTipText(contact.getFixe());
             }
             return this;
         }

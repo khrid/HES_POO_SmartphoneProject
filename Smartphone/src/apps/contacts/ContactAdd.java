@@ -39,7 +39,7 @@ public class ContactAdd extends ContactBase {
                     parent.ShowContactsMain();
                     ResetFields();
                 } catch (TransformerException e) {
-                    e.printStackTrace();
+                    lblUserMessages.setText("Problème d'accès à la base de données !");
                 }
             } else {
                 System.out.println("Information incorrect !");

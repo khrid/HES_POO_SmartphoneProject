@@ -40,6 +40,14 @@ public class ContactsController {
     private ArrayList<Contact> unsortedContactsList;
     private DefaultListModel<Contact> contactsList;
 
+    private Element XMLNom;
+    private Element XMLPrenom;
+    private Element XMLFixe;
+    private Element XMLMobile;
+    private Element XMLEmail;
+    private Element XMLPicture;
+
+
     private void InitializeXMLFile(){
         System.out.println("XML file initializing");
         path = CONTACTS_LOCATION+"contacts.xml";
@@ -74,12 +82,12 @@ public class ContactsController {
             if (racineNoeuds.item(i).getNodeType() == Node.ELEMENT_NODE) {
                 Element XMLContact = (Element) racineNoeuds.item(i);
 
-                Element XMLNom = (Element) XMLContact.getElementsByTagName(NOM).item(0);
-                Element XMLPrenom = (Element) XMLContact.getElementsByTagName(PRENOM).item(0);
-                Element XMLFixe = (Element) XMLContact.getElementsByTagName(FIXE).item(0);
-                Element XMLMobile = (Element) XMLContact.getElementsByTagName(MOBILE).item(0);
-                Element XMLEmail = (Element) XMLContact.getElementsByTagName(EMAIL).item(0);
-                Element XMLPicture = (Element) XMLContact.getElementsByTagName(PICTURE).item(0);
+                XMLNom = (Element) XMLContact.getElementsByTagName(NOM).item(0);
+                XMLPrenom = (Element) XMLContact.getElementsByTagName(PRENOM).item(0);
+                XMLFixe = (Element) XMLContact.getElementsByTagName(FIXE).item(0);
+                XMLMobile = (Element) XMLContact.getElementsByTagName(MOBILE).item(0);
+                XMLEmail = (Element) XMLContact.getElementsByTagName(EMAIL).item(0);
+                XMLPicture = (Element) XMLContact.getElementsByTagName(PICTURE).item(0);
 
                 unsortedContactsList.add(new Contact(XMLContact,XMLNom.getTextContent(),XMLPrenom.getTextContent(),
                         XMLFixe.getTextContent(),XMLMobile.getTextContent(),XMLEmail.getTextContent(),XMLPicture.getTextContent()));
@@ -149,12 +157,12 @@ public class ContactsController {
         Element XMLContact = document.createElement("contact");
         racine.appendChild(XMLContact);
 
-        Element XMLNom = document.createElement(NOM);
-        Element XMLPrenom = document.createElement(PRENOM);
-        Element XMLFixe = document.createElement(FIXE);
-        Element XMLMobile = document.createElement(MOBILE);
-        Element XMLEmail = document.createElement(EMAIL);
-        Element XMLPicture = document.createElement(PICTURE);
+        XMLNom = document.createElement(NOM);
+        XMLPrenom = document.createElement(PRENOM);
+        XMLFixe = document.createElement(FIXE);
+        XMLMobile = document.createElement(MOBILE);
+        XMLEmail = document.createElement(EMAIL);
+        XMLPicture = document.createElement(PICTURE);
 
         XMLContact.appendChild(XMLNom);
         XMLContact.appendChild(XMLPrenom);

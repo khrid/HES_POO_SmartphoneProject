@@ -17,6 +17,7 @@ class ContactsControllerTest {
         i++;
         cc.GetContacts();
         assert i==cc.GetContactsCount();
-
     }
+
+
 }
